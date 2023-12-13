@@ -1,0 +1,130 @@
+body {
+  background-image: url(static/img/bullseye-gradient.svg);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+}
+
+.card {
+  width: 450px;
+  backdrop-filter: blur(100px);
+  padding: 20px;
+  border-radius: 8px;
+  border: 2px solid;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+h2 {
+  text-align: left;
+  font-weight: 600;
+  font-size: 30px;
+  margin-top: 0;
+}
+
+.register {
+  text-align: center;
+  font-weight: 600;
+  margin-top: 0;
+}
+
+.register {
+  font-size: 30px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gambar-depan {
+  border-radius: 6px;
+}
+
+input {
+  padding: 20px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 2px black;
+  background-color: transparent;
+  transition: all 250ms;
+}
+
+input:focus {
+  outline: none;
+  border-color: #3498db;
+  background-color: #eeeeee;
+}
+
+.card form a {
+  padding: 15px 20px;
+  background-color: rgba(17, 17, 17, 0.8);
+  cursor: pointer;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.tombol-register {
+  padding: 15px 20px;
+  background-color: rgba(17, 17, 17, 0.8);
+  cursor: pointer;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  border: none;
+  outline: none;
+}
+
+.tombol-register:hover,
+a:hover {
+  background-color: rgba(54, 54, 54, 0.8);
+  color: #ffffff;
+}
+
+.switch a {
+  cursor: pointer;
+  color: rgb(0, 47, 255);
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+@media (max-width: 575px) {
+  .card {
+    width: 100%;
+    max-width: 300px;
+    max-height: 880px;
+  }
+  input:focus {
+    outline: none;
+    border-color: #3498db;
+  }
+  .mydict div {
+    width: 100%;
+  }
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tentang Kami</title>
+</head>
+<style>
+    body {
+      font-family: "JetBrains Mono", monospace;
+      background-color: #000000;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column; /* Adjusted to column layout */
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .portfolio-container {
+      width: 80%; /* Adjusted width for better responsiveness */
+      max-width: 600px;
+      background-color: #000000;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(245, 130, 130, 0.1);
+      overflow-y: auto;
+      height: 80vh;
+    }
+
+    .portfolio-container::-webkit-scrollbar {
+      width: 0.5em;
+    }
+
+    .portfolio-container::-webkit-scrollbar-thumb {
+      background-color: transparent; /* Make the thumb (handle) transparent */
+    }
+
+    .portfolio-container::-webkit-scrollbar-track {
+      background-color: transparent; /* Make the track (background) transparent */
+    }
+
+    .top-section {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .contact {
+      margin-top: 20px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .contact a {
+      color: #ffffff;
+      text-decoration: none;
+      padding: 40px; /* Increase tap area */
+      transition: background-color 0.3s; /* Add transition effect */
+      border-radius: 5px; /* Rounded corners for tap area */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 185px;
+    }
+
+    .contact a:hover {
+      background-color: rgba(255, 255, 255, 0.897); /* Highlight effect on hover */
+    }
+
+    @media (min-width: 768px) {
+      /* Apply styles for screens wider than 768px (desktop) */
+      .contact {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
+    }
+  </style>
+<body>
+    <div class="portfolio-container">
+      <div class="top-section">
+        <h1>Zero Store 🎮🎧</h1>
+        <p>
+          🌐 UTS Pemrograman Web | Game Store 🌐
+        </p>
+        <h2>Dibuat Oleh Team:</h2>
+        <p>⬇️</p>
+        <h2>1. Eugenius Mario Brili Chandra - 20.83.0558</h2>
+        <h2>2. Hafid Rifan Aziz - 20.83.0567</h2>
+        <h2>Contact</h2>
+        <p>⬇️</p>
+        <div class="contact">
+          <a href="mailto:hafidzrivan70@gmail.com">🔗 email</a>
+          <a href="https://github.com/0505Ardiansyah/uas-web">🔗 github</a>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

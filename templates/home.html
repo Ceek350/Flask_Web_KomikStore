@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="static/img/comic.png" />
+    <title>Home</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static',filename='css/main.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static',filename='css/book.css') }}"
+    />
+    
+</head>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.body {
+  height: 100vh;
+}
+
+/* Styling sidebar */
+.container {
+  display: block;
+}
+
+.sidebar {
+  width: 400px;
+  height: 50vh;
+  background: #333;
+  color: white;
+  transition: all 0.5s ease;
+  transform: translateX(400px);
+  overflow-y: auto;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  border-radius: 20px;
+}
+
+.sidebar.active {
+  transform: translateX(0px);
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 20px;
+}
+
+.sidebar ul li a {
+  margin-top: 40px;
+  text-decoration: none;
+  color: white;
+  display: block;
+}
+
+/* Styling konten */
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+.toggle-btn {
+  position: fixed;
+  top: 13px;
+  padding: 10px 20px;
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.toggle-btn:hover {
+  background-color: #555;
+}
+
+.sidecart {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #333;
+}
+
+.sidecart h2 {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.sidecart ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.sidecart li {
+  margin-bottom: 10px;
+  margin-top: 30px;
+}
+
+.sidecart .total {
+  font-weight: bold;
+  margin-top: 30px;
+  border-top: 1px solid #333;
+  padding-top: 10px;
+}
+
+.co {
+  padding: 10px;
+}
+.co:hover {
+  scale: 1.2;
+  transition: 0.3s;
+}
+</style>
+<body>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand ms-5" href="#"
+          ><img
+            src="static/img/superhero.png"
+            alt="Logo"
+            width="40"
+            height="35"
+            class="d-inline-block align-text-top" />
+          <img
+            src="static/img/komikku.png"
+            alt="Logo"
+            width="200"
+            height="40"
+            class="d-inline-block align-text-top"
+        /></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarNavAltMarkup"
+        >
+          <div class="navbar-nav">
+            <a
+              class="nav-link active mt-2 d-flex justify-content-center"
+              aria-current="page"
+              href="#"
+              >Home</a
+            >
+            <a
+              class="nav-link mt-2 d-flex justify-content-center"
+              href="{{url_for('login')}}"
+              >Login</a
+            >
+            <a class="nav-link mt-2 d-flex justify-content-center" href="#"
+              >Pricing</a>
+
+            <a  class="nav-link mt-2 d-flex justify-content-center" href="/about_us"
+              >About Us</a>
+            
+            <a class="nav-link d-flex justify-content-center" href="#">
+              <div class="container">
+                <button class="toggle-btn" onclick="toggleSidebar()" style="font-size: 30px;">🛒</button>
+                <div class="sidebar" id="sidebar">
+                  <!-- Isi Sidebar -->
+                  <div class="sidecart">
+                    <h2>Keranjang Belanja</h2>
+                    <ul id="cart-items">
+                        <!-- Isi Keranjang akan ditampilkan di sini -->
+                    </ul>
+                    <div class="total" style="color: white;">
+                        Total: $<span id="cart-total" >0</span>
+                    </div>
+                    <button class="co" onclick="checkout()">Checkout</button>
+                </div>
+                </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!--content-->
+    <div class="container-0">
+      <!-- Content here -->
+      <img class="gambar-1" src="/static/img/contentku.png" alt="" />
+    </div>
+    <div class="container-0 d-flex justify-content-center mb-4">
+      <button type="button" class="btn-beli btn btn-danger px-2">
+        BELI SEKARANG
+      </button>
+    </div>
+    <hr class="border-bottom mx-5" />
+    <div class="container-1">
+      <p>TRENDING SAAT INI</p>
+      <h1>KOMIK MANGA</h1>
+    </div>
+    <div class="container-2">
+      <div class="book" style="background-image: url({{ url_for('static', filename='img/manga/onepiece.jpg') }})">
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>One Piece</p>
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 70.000</p>
+            <p class="new">Rp 50.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('Onepiece', 70000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="book1" style="background-image: url({{ url_for('static', filename='img/manga/jjk.jpg') }})">
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>Jujutsu Kaisen</p>
+
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 75.000</p>
+            <p class="new">Rp 55.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('JK', 75000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="book2"
+        style="background-image: url({{ url_for('static', filename='img/manga/kagurabachi.jpg') }})"
+      >
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>Kagurabachi</p>
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 80.000</p>
+            <p class="new">Rp 60.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('KaguraBch', 80000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="book3"
+        style="background-image: url({{ url_for('static', filename='img/manga/Dragonball.jpg') }})"
+      >
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>Dragon Ball</p>
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 65.000</p>
+            <p class="new">Rp 40.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('DB', 65000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="book4"
+        style="background-image: url({{ url_for('static', filename='img/manga/chainsawman.jpg') }})"
+      >
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>Chainsaw Man</p>
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 80.000</p>
+            <p class="new">Rp 60.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('Chainswmn', 80000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="book5"
+        style="background-image: url({{ url_for('static', filename='img/manga/deathnote.jpg') }})"
+      >
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>Death Note</p>
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 75.000</p>
+            <p class="new">Rp 55.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('DeathNote', 75000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="book6"
+        style="background-image: url({{ url_for('static', filename='img/manga/kubo-san.jpg') }})"
+      >
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>Kubo Won't Let Me Be Invisible</p>
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 65.000</p>
+            <p class="new">Rp 40.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('kubosan', 65000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="book7"
+        style="background-image: url({{ url_for('static', filename='img/manga/tokyoghoul.jpg') }})"
+      >
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>Tokyo Ghoul</p>
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 65.000</p>
+            <p class="new">Rp 40.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('TkyoGhoul', 65000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="book8"
+        style="background-image: url({{ url_for('static', filename='img/manga/demonslayer.jpg') }})"
+      >
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>Demon Slayer: Kimetsu no Yaiba</p>
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 80.000</p>
+            <p class="new">Rp 60.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('KNY', 80000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="book9"
+        style="background-image: url({{ url_for('static', filename='img/manga/spyxfam.jpg') }})"
+      >
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>Spy x Family</p>
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 75.000</p>
+            <p class="new">Rp 55.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('SxF', 75000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="book10"
+        style="background-image: url({{ url_for('static', filename='img/manga/sakamotodays.jpg') }})"
+      >
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>Sakamoto Days</p>
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 80.000</p>
+            <p class="new">Rp 60.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('Sakamto', 80000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="book11"
+        style="background-image: url({{ url_for('static', filename='img/manga/myheroakdm.jpg') }})"
+      >
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>Myhero Academia</p>
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 65.000</p>
+            <p class="new">Rp 40.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('MyHro', 65000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="book12"
+        style="background-image: url({{ url_for('static', filename='img/manga/undeadunluck.jpg') }})"
+      >
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>Undead Unluck</p>
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 80.000</p>
+            <p class="new">Rp 60.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('Undeadunlck', 80000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="book13"
+        style="background-image: url({{ url_for('static', filename='img/manga/assasinclassroom.jpg') }})"
+      >
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head">
+            <p>Assasin Classroom</p>
+            <hr />
+          </div>
+          <div class="items price">
+            <p class="old">Rp 75.000</p>
+            <p class="new">Rp 55.000</p>
+          </div>
+          <div class="items cart">
+            <i class="fa fa-shopping-cart"></i>
+            <button onclick="addToCart('AssasinClass', 75000)">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Footer-->
+    <div class="container-3">
+      <footer class="footer-section">
+        <div class="container">
+          <div class="footer-cta pt-5 pb-5">
+            <div class="row">
+              <div class="col-xl-4 col-md-4 mb-30">
+                <div class="single-cta">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div class="cta-text">
+                    <h4>Find us</h4>
+                    <span>1010 Avenue, sw 54321, chandigarh</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-4 col-md-4 mb-30">
+                <div class="single-cta">
+                  <i class="fas fa-phone"></i>
+                  <div class="cta-text">
+                    <h4>Call us</h4>
+                    <span>9876543210 0</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-4 col-md-4 mb-30">
+                <div class="single-cta">
+                  <i class="far fa-envelope-open"></i>
+                  <div class="cta-text">
+                    <h4>Mail us</h4>
+                    <span>mail@info.com</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer-content pt-5 pb-5">
+            <div class="row">
+              <div class="col-xl-4 col-lg-4 mb-50">
+                <div class="footer-widget">
+                  <div class="footer-logo">
+                    <img
+                      src="static/img/superhero.png"
+                      class="logo"
+                      width="45"
+                      alt="logo"
+                    />
+                    <img
+                      src="static/img/komikku.png"
+                      width="200"
+                      height="40"
+                      alt="logo"
+                    />
+                  </div>
+                  <div class="footer-text">
+                    <p>
+                      Lorem ipsum dolor sit amet, consec tetur adipisicing elit,
+                      sed do eiusmod tempor incididuntut consec tetur
+                      adipisicing elit,Lorem ipsum dolor sit amet.
+                    </p>
+                  </div>
+                  <div class="footer-social-icon">
+                    <span>Follow us</span>
+                    <a href="#">
+                      <img src="static/img/facebook.svg" alt="" />
+                    </a>
+                    <a href="#">
+                      <img src="static/img/twitter.svg" class="" alt=""
+                    /></a>
+                    <a href="#"><img src="static/img/google.svg" alt="" /></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                <div class="footer-widget">
+                  <div class="footer-widget-heading">
+                    <h3>Useful Links</h3>
+                  </div>
+                  <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">about</a></li>
+                    <li><a href="#">services</a></li>
+                    <li><a href="#">portfolio</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Our Services</a></li>
+                    <li><a href="#">Expert Team</a></li>
+                    <li><a href="#">Contact us</a></li>
+                    <li><a href="#">Latest News</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-6 mb-50">
+                <div class="footer-widget">
+                  <div class="footer-widget-heading">
+                    <h3>Subscribe</h3>
+                  </div>
+                  <div class="footer-text mb-25">
+                    <p>
+                      Don’t miss to subscribe to our new feeds, kindly fill the
+                      form below.
+                    </p>
+                  </div>
+                  <div class="subscribe-form">
+                    <form action="#">
+                      <input type="text" placeholder="Email Address" />
+                      <button>
+                        <img src="static/img/telegram.png" alt="telegram" />
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="copyright-area">
+          <div class="container">
+            <div class="row">
+              <div class="col-xl-6 col-lg-6 text-center text-lg-left">
+                <div class="copyright-text">
+                  <p>
+                    Copyright &copy; 2018, All Right Reserved
+                    <a href="https://codepen.io/anupkumar92/">Anup</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+crossorigin="anonymous"></script>
+<script>
+  function toggleSidebar() {
+  var sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("active");
+  }
+  function checkout() {
+  // Proses checkout, misalnya redirect ke halaman pembayaran atau lakukan tindakan lain sesuai kebutuhan
+  alert('Terima kasih telah berbelanja! Silakan lanjut ke pembayaran.');
+  }
+
+  let cart = [];
+  let total = 0;
+
+  function addToCart(productName, price) {
+    cart.push({ name: productName, price: price });
+    total += price;
+    updateCart();
+  }
+  
+  function updateCart() {
+    let cartItems = document.getElementById('cart-items');
+    let cartTotal = document.getElementById('cart-total');
+    cartItems.innerHTML = '';
+    cart.forEach(item => {
+      let li = document.createElement('li');
+      li.textContent = `${item.name} - $${item.price}`;
+      cartItems.appendChild(li);
+    });
+    cartTotal.textContent = total;
+    }
+</script>
+</body>
+</html>

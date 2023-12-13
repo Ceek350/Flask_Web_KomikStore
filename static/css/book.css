@@ -1,0 +1,533 @@
+.book1 {
+  width: 150px;
+  height: 200px;
+
+  position: static;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+.book1:hover .overlay {
+  opacity: 1;
+  & .head {
+    transform: translateY(0px);
+  }
+
+  & hr {
+    width: 75px;
+    transition-delay: 0.4s;
+  }
+
+  & .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+
+  & .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+}
+
+.book2 {
+  width: 150px;
+  height: 200px;
+
+  position: static;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: url(static/img/manga/kagurabachi.jpg);
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+.book2:hover .overlay {
+  opacity: 1;
+  & .head {
+    transform: translateY(0px);
+  }
+
+  & hr {
+    width: 75px;
+    transition-delay: 0.4s;
+  }
+
+  & .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+
+  & .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+}
+
+.book3 {
+  width: 150px;
+  height: 200px;
+
+  position: static;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: url(static/img/manga/Dragonball.jpg);
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+
+.book3:hover .overlay {
+  opacity: 1;
+  & .head {
+    transform: translateY(0px);
+  }
+
+  & hr {
+    width: 75px;
+    transition-delay: 0.4s;
+  }
+
+  & .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+
+  & .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+}
+
+.book4 {
+  width: 150px;
+  height: 200px;
+
+  position: static;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: url(static/img/manga/chainsawman.jpg);
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+.book4:hover .overlay {
+  opacity: 1;
+  & .head {
+    transform: translateY(0px);
+  }
+
+  & hr {
+    width: 75px;
+    transition-delay: 0.4s;
+  }
+
+  & .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+
+  & .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+}
+
+.book5 {
+  width: 150px;
+  height: 200px;
+
+  position: static;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: url(static/img/manga/deathnote.jpg);
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+.book5:hover .overlay {
+  opacity: 1;
+  & .head {
+    transform: translateY(0px);
+  }
+
+  & hr {
+    width: 75px;
+    transition-delay: 0.4s;
+  }
+
+  & .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+
+  & .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+}
+
+.book6 {
+  width: 150px;
+  height: 200px;
+
+  position: static;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: url(static/img/manga/kubo-san.jpg);
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+.book6:hover .overlay {
+  opacity: 1;
+  & .head {
+    transform: translateY(0px);
+  }
+
+  & hr {
+    width: 75px;
+    transition-delay: 0.4s;
+  }
+
+  & .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+
+  & .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+}
+
+.book7 {
+  width: 150px;
+  height: 200px;
+
+  position: static;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: url(static/img/manga/tokyoghoul.jpg);
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+.book7:hover .overlay {
+  opacity: 1;
+  & .head {
+    transform: translateY(0px);
+  }
+
+  & hr {
+    width: 75px;
+    transition-delay: 0.4s;
+  }
+
+  & .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+
+  & .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+}
+
+.book8 {
+  width: 150px;
+  height: 200px;
+
+  position: static;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: url(static/img/manga/demonslayer.jpg);
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+.book8:hover .overlay {
+  opacity: 1;
+  & .head {
+    transform: translateY(0px);
+  }
+
+  & hr {
+    width: 75px;
+    transition-delay: 0.4s;
+  }
+
+  & .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+
+  & .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+}
+
+.book9 {
+  width: 150px;
+  height: 200px;
+
+  position: static;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: url(static/img/manga/spyxfam.jpg);
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+.book9:hover .overlay {
+  opacity: 1;
+  & .head {
+    transform: translateY(0px);
+  }
+
+  & hr {
+    width: 75px;
+    transition-delay: 0.4s;
+  }
+
+  & .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+
+  & .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+}
+
+.book10 {
+  width: 150px;
+  height: 200px;
+
+  position: static;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: url(static/img/manga/sakamotodays.jpg);
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+.book10:hover .overlay {
+  opacity: 1;
+  & .head {
+    transform: translateY(0px);
+  }
+
+  & hr {
+    width: 75px;
+    transition-delay: 0.4s;
+  }
+
+  & .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+
+  & .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+}
+
+.book11 {
+  width: 150px;
+  height: 200px;
+
+  position: static;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: url(static/img/manga/myheroakdm.jpg);
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+.book11:hover .overlay {
+  opacity: 1;
+  & .head {
+    transform: translateY(0px);
+  }
+
+  & hr {
+    width: 75px;
+    transition-delay: 0.4s;
+  }
+
+  & .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+
+  & .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+}
+
+.book12 {
+  width: 150px;
+  height: 200px;
+
+  position: static;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: url(static/img/manga/undeadunluck.jpg);
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+.book12:hover .overlay {
+  opacity: 1;
+  & .head {
+    transform: translateY(0px);
+  }
+
+  & hr {
+    width: 75px;
+    transition-delay: 0.4s;
+  }
+
+  & .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+
+  & .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+}
+
+.book13 {
+  width: 150px;
+  height: 200px;
+
+  position: static;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: url(static/img/manga/assasinclassroom.jpg);
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+.book13:hover .overlay {
+  opacity: 1;
+  & .head {
+    transform: translateY(0px);
+  }
+
+  & hr {
+    width: 75px;
+    transition-delay: 0.4s;
+  }
+
+  & .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+
+  & .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+}
