@@ -128,6 +128,18 @@
   scale: 1.2;
   transition: 0.3s;
 }
+
+@media only screen and (max-width:415px) {
+  #krnjg {
+    display: none;
+  }
+}
+
+@media only screen and (min-width:991px) {
+  #krnjg {
+    display: none;
+  }
+}
 </style>
 <body>
     <!--Navbar-->
@@ -147,6 +159,7 @@
             height="40"
             class="d-inline-block align-text-top"
         /></a>
+        <button style="right: 60px; top:-3px; font-size: 35px;" class="toggle-btn" id="krnjg" onclick="toggleSidebar()" >🛒</button>
         <button
           class="navbar-toggler"
           type="button"
