@@ -110,11 +110,11 @@ def registerdb():
 
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login')
 def login():
     return render_template("login.html")
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register')
 def register():
     return render_template("register.html")
 
