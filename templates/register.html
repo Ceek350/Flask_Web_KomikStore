@@ -13,10 +13,10 @@
   <body style="background-image: url({{url_for('static', filename="img/bullseye-gradient.svg")}})">
     <div class="container">
       <div class="card">
-        <form method="post" action="">
+        <form method="post" action="{{ url_for('register') }}">
           <h2 class="register">Register</h2>
           <p id="passwordError"></p>
-          <input type="text" placeholder="Username" name="user_name" autocomplete="username" />
+          <input type="email" placeholder="email" name="email" autocomplete="on" />
           <input
             type="password"
             minlength="8"
@@ -34,10 +34,10 @@
             placeholder="confirm password"
             oninput="checkPasswords()"
           />
-          <input type="number" id="phoneNumber" name="no_hp" placeholder="phone number" />
           <button
             class="tombol-register"
             type="submit"
+            value="Register"
             id="registerButton"
             disabled
             onclick="redirectToLogin()"
@@ -47,7 +47,7 @@
         </form>
         <div class="switch">
           <h5>Already have account?</h5>
-          <a href="{{ url_for("login") }}">Login</a>
+          <a href="{{ url_for('login') }}">Login</a>
         </div>
       </div>
     </div>
@@ -101,7 +101,8 @@
       }
       
       function redirectToLogin() {
-        window.location.href = "#";
+        
+        window.location.href = "/";
       }
       
       // Call checkForm on input events
