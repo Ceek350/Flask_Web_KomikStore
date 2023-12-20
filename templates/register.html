@@ -13,10 +13,10 @@
   <body style="background-image: url({{url_for('static', filename="img/bullseye-gradient.svg")}})">
     <div class="container">
       <div class="card">
-        <form method="post" action="{{ url_for('register') }}">
+        <form method="post" action="{{ url_for('registerdb') }}">
           <h2 class="register">Register</h2>
           <p id="passwordError"></p>
-          <input type="email" placeholder="email" name="email" autocomplete="on" />
+          <input type="email" placeholder="email" name="email" id="email" autocomplete="on" required />
           <input
             type="password"
             minlength="8"
@@ -101,7 +101,7 @@
       }
       
       function redirectToLogin() {
-        
+
         window.location.href = "/";
       }
       

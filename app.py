@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, request, session
+from flask import Flask, render_template, url_for,request,redirect,session
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import MySQLdb.cursors, re, hashlib
@@ -6,6 +6,7 @@ import MySQLdb.cursors, re, hashlib
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
+app.secret_key = 'zerostore'
 
 # Enter your database connection details below
 app.config['MYSQL_HOST'] = 'sql.freedb.tech'
@@ -21,10 +22,16 @@ def anu():
     return render_template('index.html')
 
 @app.route('/home')
+def success_login():
+    if 'loggedin' in session:
+        # User is loggedin show them the home page
+        return render_template('index.html', email=session['email'])
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
 def index():
     return render_template('index.html')
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/logindb', methods=['GET', 'POST'])
 def login():
     # Output message if something goes wrong...
     msg = ''
@@ -54,7 +61,7 @@ def login():
         else:
             # Account doesnt exist or username/password incorrect
             msg = 'Incorrect email/password!'
-    return render_template('login.html', msg='')
+    return render_template('HomeLogin.html', msg='')
 
 @app.route('/logout')
 def logout():
@@ -65,7 +72,7 @@ def logout():
     # Redirect to login page
     return render_template('index.html')
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/registerdb', methods=['GET', 'POST'])
 def register():
     # Output message if something goes wrong...
     msg = ''
@@ -99,6 +106,17 @@ def register():
     # Show registration form with message (if any)
     # Check if account exists using MySQL
     return render_template('register.html', msg=msg)
+
+
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    return render_template("login.html")
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    return render_template("register.html")
 
 @app.route('/about_us')
 def about():
