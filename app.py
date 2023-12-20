@@ -32,7 +32,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/logindb', methods=['GET', 'POST'])
-def login():
+def logidb():
     # Output message if something goes wrong...
     msg = ''
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
@@ -73,7 +73,7 @@ def logout():
     return render_template('index.html')
 
 @app.route('/registerdb', methods=['GET', 'POST'])
-def register():
+def registerdb():
     # Output message if something goes wrong...
     msg = ''
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
