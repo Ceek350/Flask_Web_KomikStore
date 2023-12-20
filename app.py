@@ -32,7 +32,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/logindb', methods=['GET', 'POST'])
-def logidb():
+def logindb():
     # Output message if something goes wrong...
     msg = ''
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
@@ -106,9 +106,6 @@ def registerdb():
     # Show registration form with message (if any)
     # Check if account exists using MySQL
     return render_template('register.html', msg=msg)
-
-
-
 
 @app.route('/login')
 def login():
