@@ -30,7 +30,7 @@ def dashboard():
         return redirect('/logindb')
 
 @app.route('/logindb', methods=['GET', 'POST'])
-def login():
+def logindb():
     error = None  # Variabel untuk menyimpan pesan error
 
     if request.method == 'POST':
