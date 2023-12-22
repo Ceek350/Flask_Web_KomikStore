@@ -44,22 +44,37 @@ def success_login():
 def index():
     return render_template('index.html')
 
-@app.route('/logindb', methods=['GET','POST'])
+@app.route('/logindb', methods=['GET', 'POST'])
 def logindb():
-    username = request.form.get('username')
-    password = request.form.get('password')
+    # Output message if something goes wrong...
+    msg = ''
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+        # Create variables for easy access
+        email = request.form['email']
+        password = request.form['password']
+        # Retrieve the hashed password
+        hash = password + app.secret_key
+        hash = hashlib.sha1(hash.encode())
+        password = hash.hexdigest()
 
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM user_data WHERE username = %s AND password = %s", (username, password,))
-    user_data = cur.fetchone()
-    cur.close()
+        # Check if account exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM user_data WHERE email = %s AND password = %s', (email, password,))
+        # Fetch one record and return the result
+        account = cursor.fetchone()
 
-    if perform_login(username, password):
-        session['logged_in'] = True
-        session['username'] = username
-        return "berhasil"
-    else:
-        return "gagal"
+        # If account exists in accounts table in out database
+        if account:
+            # Create session data, we can access this data in other routes
+            session['loggedin'] = True
+            session['id'] = account['id']
+            session['email'] = account['email']
+            # Redirect to home page
+            return 'Logged in successfully!'
+        else:
+            # Account doesnt exist or username/password incorrect
+            msg = 'Incorrect email/password!'
+    return render_template('HomeLogin.html', msg='')
 
 @app.route('/logout')
 def logout():
