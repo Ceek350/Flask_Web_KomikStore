@@ -18,18 +18,6 @@ mydb = mysql.connector.connect(
     database='sql12671859'
 )
 
-def perform_login(username, password):
-    mycursor = mydb.cursor()
-    mycursor.execute("SELECT * FROM user_data WHERE username = %s", (username,))
-    user_data = mycursor.fetchone()
-    mycursor.close()
-
-    if user_data:
-        hashed_password = user_data[3]
-        if sha256_crypt.verify(password, hashed_password):
-            return True
-    return False
-
 @app.route('/')
 def anu():
     return render_template('index.html')
