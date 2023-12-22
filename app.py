@@ -71,7 +71,7 @@ def logindb():
         else:
             # Account doesn't exist or username/password is incorrect
             msg = 'Incorrect email/password!'
-    return render_template('login.html', msg=msg)
+    return render_template('index.html', msg=msg)
 
 @app.route('/logout')
 def logout():
