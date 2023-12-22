@@ -25,7 +25,7 @@ def anu():
 @app.route('/home')
 def dashboard():
     if 'username' in session:
-        return render_template('dashboard.html', username=session['username'])
+        return render_template('index.html', username=session['username'])
     else:
         return redirect('/logindb')
 
@@ -43,7 +43,7 @@ def login():
 
         if user and check_password_hash(user['password'], password):
             session['username'] = username
-            return redirect('/index.html')
+            return redirect('/home')
         else:
             error = 'Invalid username or password'
 
