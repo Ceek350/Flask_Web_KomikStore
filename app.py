@@ -47,7 +47,7 @@ def logindb():
         else:
             error = 'Invalid username or password'
 
-    return redirect('/home', error=error)
+    return render_template('index.html', error=error)
 
 @app.route('/logout')
 def logout():
