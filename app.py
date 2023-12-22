@@ -2,20 +2,33 @@ from flask import Flask, render_template, url_for,request,redirect,session
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import MySQLdb.cursors, re, hashlib
+from passlib.hash import sha256_crypt
 
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
-app.secret_key = 'zerostore'
+app.secret_key = 'komikstore'
 
 # Enter your database connection details below
-app.config['MYSQL_HOST'] = 'sql.freedb.tech'
-app.config['MYSQL_USER'] = 'freedb_zerostore'
+app.config['MYSQL_HOST'] = 'sql12.freesqldatabase.com'
+app.config['MYSQL_USER'] = 'sql12671859'
 app.config['MYSQL_PORT'] = 3306
-app.config['MYSQL_PASSWORD'] = '9XcMJypct#5tX&J'
-app.config['MYSQL_DB'] = 'freedb_zerostore'
+app.config['MYSQL_PASSWORD'] = '43mqN4tAK9'
+app.config['MYSQL_DB'] = 'sql12671859'
 
 mysql = MySQL(app)
+
+def perform_login(username, password):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM user_data WHERE username = %s AND password = %s", (username, password,))
+    user_data = cur.fetchone()
+    cur.close()
+
+    if user_data:
+        hashed_password = user_data[3]
+        if sha256_crypt.verify(password, hashed_password):
+            return True
+    return False
 
 @app.route('/')
 def anu():
@@ -25,43 +38,28 @@ def anu():
 def success_login():
     if 'loggedin' in session:
         # User is loggedin show them the home page
-        return render_template('index.html', email=session['email'])
+        return render_template('index.html')
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 def index():
     return render_template('index.html')
 
-@app.route('/logindb', methods=['GET', 'POST'])
+@app.route('/logindb', methods=['GET','POST'])
 def logindb():
-    # Output message if something goes wrong...
-    msg = ''
-    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
-        # Create variables for easy access
-        email = request.form['email']
-        password = request.form['password']
-        # Retrieve the hashed password
-        hash = password + app.secret_key
-        hash = hashlib.sha1(hash.encode())
-        password = hash.hexdigest()
+    username = request.form.get('username')
+    password = request.form.get('password')
 
-        # Check if account exists using MySQL
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM user_data WHERE email = %s AND password = %s', (email, password,))
-        # Fetch one record and return the result
-        account = cursor.fetchone()
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM user_data WHERE username = %s AND password = %s", (username, password,))
+    user_data = cur.fetchone()
+    cur.close()
 
-        # If account exists in accounts table in out database
-        if account:
-            # Create session data, we can access this data in other routes
-            session['loggedin'] = True
-            session['id'] = account['id']
-            session['email'] = account['email']
-            # Redirect to home page
-            return 'Logged in successfully!'
-        else:
-            # Account doesnt exist or username/password incorrect
-            msg = 'Incorrect email/password!'
-    return render_template('HomeLogin.html', msg='')
+    if perform_login(username, password):
+        session['logged_in'] = True
+        session['username'] = username
+        return "berhasil"
+    else:
+        return "gagal"
 
 @app.route('/logout')
 def logout():
@@ -77,10 +75,11 @@ def registerdb():
     # Output message if something goes wrong...
     msg = ''
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+    if request.method == 'POST' and 'email' in request.form and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
         password = request.form['password']
         email = request.form['email']
+        username = request.form['username']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM user_data WHERE email = %s', (email,))
         account = cursor.fetchone()
@@ -97,7 +96,7 @@ def registerdb():
             hash = hashlib.sha1(hash.encode())
             password = hash.hexdigest()
             # Account doesn't exist, and the form data is valid, so insert the new account into the accounts table
-            cursor.execute('INSERT INTO user_data (id, email, password) VALUES (NULL, %s, %s)', (email, password,))
+            cursor.execute('INSERT INTO user_data (id, email, username, password) VALUES (NULL, %s, %s, %s)', (email, username, password,))
             mysql.connection.commit()
             msg = 'You have successfully registered! now u can login'
     elif request.method == 'POST':

@@ -17,6 +17,7 @@
           <h2 class="register">Register</h2>
           <p id="passwordError"></p>
           <input type="email" placeholder="email" name="email" id="email" autocomplete="on" required />
+          <input type="text" placeholder="username" name="username" id="username" required>
           <input
             type="password"
             minlength="8"
@@ -24,26 +25,15 @@
             name="password"
             placeholder="Password"
             autocomplete="password"
+            required
             oninput="checkPasswords()"
           />
-          <input
-            type="password"
-            minlength="8"
-            name="password"
-            id="confirmPassword"
-            placeholder="confirm password"
-            oninput="checkPasswords()"
-          />
-          <button
-            class="tombol-register"
-            type="submit"
-            value="Register"
-            id="registerButton"
-            disabled
-            onclick="redirectToLogin()"
-          >
-            Register
-          </button>
+          <div class="msg">{{ msg }}</div>
+				  <input type="submit" class="tombol-register"
+          type="submit"
+          value="Register"
+          id="registerButton"
+          onclick="redirectToLogin()">
         </form>
         <div class="switch">
           <h5>Already have account?</h5>

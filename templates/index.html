@@ -57,6 +57,45 @@
   transform: translateX(0px);
 }
 
+#profilside {
+  width: 400px;
+  height: 50vh;
+  background: #333;
+  color: white;
+  transition: all 0.5s ease;
+  overflow-y: auto;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  border-radius: 20px;
+  transform: translateX(400px);
+}
+
+#profilside.active {
+  transform: translateX(0px);
+}
+
+.profilcart {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #333;
+}
+
+.profilcart h2 {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.profilcart .profil {
+  font-weight: bold;
+  margin-top: 30px;
+  border-top: 1px solid #333;
+  padding-top: 10px;
+}
+
 .sidebar ul {
   list-style: none;
   padding: 20px;
@@ -175,13 +214,34 @@
           class="collapse navbar-collapse justify-content-end"
           id="navbarNavAltMarkup"
         >
-          <div class="navbar-nav">
+          <div class="navbar-nav" style="gap: 10px; text-transform: uppercase; margin-right: 10px;">
             <a
               class="nav-link active mt-2 d-flex justify-content-center"
               aria-current="page"
-              href="/home"
-              >Home</a
-            >
+              href="/"
+              >Home</a>
+            <button
+              class="nav-link active mt-2 d-flex justify-content-center"
+              onclick="profilbtn()"
+              id="profil"
+              aria-current="page"
+              >PROFIL</button>
+            <div class="profilside" id="profilside">
+              <!-- Isi Sidebar -->
+              <div class="profilcart">
+                <button class="close" onclick="closebtn()" style="left: 0; padding: 10px;">X</button>
+                <h2>PROFIL</h2>
+                <div class="profil" style="color: white;">
+                    Email: <span id="profil" >
+                      {% if msg %}
+                      <script>
+                        alert("{{ msg }}")
+                      </script>
+                      {% endif %}
+                    </span>
+                </div>
+            </div>
+            </div>
             <a
               class="nav-link mt-2 d-flex justify-content-center"
               href="{{url_for('login')}}"
@@ -201,7 +261,7 @@
                         <!-- Isi Keranjang akan ditampilkan di sini -->
                     </ul>
                     <div class="total" style="color: white;">
-                        Total: $<span id="cart-total" >0</span>
+                        Total: Rp<span id="cart-total" >0</span>
                     </div>
                     <button class="co" onclick="checkout()">Checkout</button>
                 </div>
@@ -641,6 +701,15 @@
 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 crossorigin="anonymous"></script>
 <script>
+  function profilbtn() {
+    var profil = document.getElementById('profilside')
+    profil.classList.add("active")
+  }
+  function closebtn() {
+    var profil = document.getElementById('profilside')
+    profil.classList.remove("active")
+  }
+
   function toggleSidebar() {
   var sidebar = document.getElementById("sidebar");
   sidebar.classList.toggle("active");
@@ -652,6 +721,7 @@ crossorigin="anonymous"></script>
 
   let cart = [];
   let total = 0;
+  let email = ""
 
   function addToCart(productName, price) {
     cart.push({ name: productName, price: price });
@@ -670,6 +740,14 @@ crossorigin="anonymous"></script>
     });
     cartTotal.textContent = total;
     }
+
+  function profil() {
+    let profil = document.getElementById('profil');
+    profil.innerHTML = '';
+    profil.textContent = `${msg}`;
+  }
+
+
 </script>
 </body>
 </html>
