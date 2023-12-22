@@ -3,6 +3,7 @@ import mysql.connector
 import re
 import hashlib
 from passlib.hash import sha256_crypt
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -34,53 +35,36 @@ def anu():
     return render_template('index.html')
 
 @app.route('/home')
-def success_login():
-    if 'loggedin' in session:
-        # User is loggedin show them the home page
-        return render_template('index.html')
-    # User is not loggedin redirect to login page
-    return redirect(url_for('login'))
-def index():
-    return render_template('index.html')
+def dashboard():
+    if 'username' in session:
+        return render_template('dashboard.html', username=session['username'])
+    else:
+        return redirect('/logindb')
 
 @app.route('/logindb', methods=['GET', 'POST'])
-def logindb():
-    # Output message if something goes wrong...
-    msg = ''
-    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
-        # Create variables for easy access
-        email = request.form['email']
+def login():
+    error = None  # Variabel untuk menyimpan pesan error
+
+    if request.method == 'POST':
+        username = request.form['username']
         password = request.form['password']
-        # Retrieve the hashed password
-        hash_password = hashlib.sha1((password + app.secret_key).encode()).hexdigest()
 
-        # Check if account exists using MySQL
         cursor = mydb.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM user_data WHERE email = %s AND password = %s', (email, hash_password,))
-        # Fetch one record and return the result
-        account = cursor.fetchone()
+        cursor.execute('SELECT * FROM user_data WHERE username = %s', (username,))
+        user = cursor.fetchone()
 
-        # If account exists in accounts table in our database
-        if account:
-            # Create session data, we can access this data in other routes
-            session['loggedin'] = True
-            session['id'] = account['id']
-            session['email'] = account['email']
-            # Redirect to home page or any other desired page
-            return 'Logged in successfully!'
+        if user and check_password_hash(user['password'], password):
+            session['username'] = username
+            return redirect('/index.html')
         else:
-            # Account doesn't exist or username/password is incorrect
-            msg = 'Incorrect email/password!'
-    return render_template('index.html', msg=msg)
+            error = 'Invalid username or password'
+
+    return render_template('login.html', error=error)
 
 @app.route('/logout')
 def logout():
-    # Remove session data, this will log the user out
-    session.pop('loggedin', None)
-    session.pop('id', None)
-    session.pop('email', None)
-    # Redirect to login page
-    return render_template('index.html')
+    session.pop('username', None)
+    return redirect('/login')
 
 @app.route('/registerdb', methods=['GET', 'POST'])
 def registerdb():
