@@ -168,6 +168,12 @@
   transition: 0.3s;
 }
 
+.card.dark-bg {
+      background-color: #343a40; /* Ubah sesuai dengan preferensi warna Anda */
+      color: white; /* Ubah warna teks jika diperlukan */
+      height: 100%; /* Tentukan ketinggian untuk semua kartu */
+    }
+
 @media only screen and (max-width:415px) {
   #krnjg {
     display: none;
@@ -177,6 +183,15 @@
 @media only screen and (min-width:991px) {
   #krnjg {
     display: none;
+  }
+  #gambar-1 {
+    width: 95%;
+    aspect-ratio: 16/9;
+    margin-bottom: -150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -250px;
   }
 }
 </style>
@@ -273,7 +288,7 @@
     </nav>
 
     <!--content-->
-    <div class="container-0">
+    <div class="container-0" id="gambar-1">
       <!-- Content here -->
       <img class="gambar-1" src="/static/img/contentku.png" alt="" />
     </div>
@@ -285,286 +300,16 @@
     <hr class="border-bottom mx-5" />
     <div class="container-1">
       <p>TRENDING SAAT INI</p>
-      <h1>KOMIK MANGA</h1>
+      <h1 style="display: flex; justify-content: center; align-items: center;">KOMIK MANGA</h1>
+      <p>API: https://komiku-api.fly.dev/api/comic/popular/page/1</p>
     </div>
-    <div class="container-2">
-      <div class="book" style="background-image: url({{ url_for('static', filename='img/manga/onepiece.jpg') }})">
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>One Piece</p>
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 70.000</p>
-            <p class="new">Rp 50.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('Onepiece', 70000)">Tambah ke Keranjang</button>
-          </div>
+    <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="comics-container">
+          <!-- Daftar kartu komik akan ditampilkan di sini -->
         </div>
-      </div>
-      <div
-        class="book1" style="background-image: url({{ url_for('static', filename='img/manga/jjk.jpg') }})">
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>Jujutsu Kaisen</p>
+    </div>
 
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 75.000</p>
-            <p class="new">Rp 55.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('JK', 75000)">Tambah ke Keranjang</button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="book2"
-        style="background-image: url({{ url_for('static', filename='img/manga/kagurabachi.jpg') }})"
-      >
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>Kagurabachi</p>
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 80.000</p>
-            <p class="new">Rp 60.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('KaguraBch', 80000)">Tambah ke Keranjang</button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="book3"
-        style="background-image: url({{ url_for('static', filename='img/manga/Dragonball.jpg') }})"
-      >
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>Dragon Ball</p>
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 65.000</p>
-            <p class="new">Rp 40.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('DB', 65000)">Tambah ke Keranjang</button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="book4"
-        style="background-image: url({{ url_for('static', filename='img/manga/chainsawman.jpg') }})"
-      >
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>Chainsaw Man</p>
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 80.000</p>
-            <p class="new">Rp 60.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('Chainswmn', 80000)">Tambah ke Keranjang</button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="book5"
-        style="background-image: url({{ url_for('static', filename='img/manga/deathnote.jpg') }})"
-      >
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>Death Note</p>
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 75.000</p>
-            <p class="new">Rp 55.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('DeathNote', 75000)">Tambah ke Keranjang</button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="book6"
-        style="background-image: url({{ url_for('static', filename='img/manga/kubo-san.jpg') }})"
-      >
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>Kubo Won't Let Me Be Invisible</p>
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 65.000</p>
-            <p class="new">Rp 40.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('kubosan', 65000)">Tambah ke Keranjang</button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="book7"
-        style="background-image: url({{ url_for('static', filename='img/manga/tokyoghoul.jpg') }})"
-      >
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>Tokyo Ghoul</p>
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 65.000</p>
-            <p class="new">Rp 40.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('TkyoGhoul', 65000)">Tambah ke Keranjang</button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="book8"
-        style="background-image: url({{ url_for('static', filename='img/manga/demonslayer.jpg') }})"
-      >
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>Demon Slayer: Kimetsu no Yaiba</p>
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 80.000</p>
-            <p class="new">Rp 60.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('KNY', 80000)">Tambah ke Keranjang</button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="book9"
-        style="background-image: url({{ url_for('static', filename='img/manga/spyxfam.jpg') }})"
-      >
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>Spy x Family</p>
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 75.000</p>
-            <p class="new">Rp 55.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('SxF', 75000)">Tambah ke Keranjang</button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="book10"
-        style="background-image: url({{ url_for('static', filename='img/manga/sakamotodays.jpg') }})"
-      >
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>Sakamoto Days</p>
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 80.000</p>
-            <p class="new">Rp 60.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('Sakamto', 80000)">Tambah ke Keranjang</button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="book11"
-        style="background-image: url({{ url_for('static', filename='img/manga/myheroakdm.jpg') }})"
-      >
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>Myhero Academia</p>
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 65.000</p>
-            <p class="new">Rp 40.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('MyHro', 65000)">Tambah ke Keranjang</button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="book12"
-        style="background-image: url({{ url_for('static', filename='img/manga/undeadunluck.jpg') }})"
-      >
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>Undead Unluck</p>
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 80.000</p>
-            <p class="new">Rp 60.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('Undeadunlck', 80000)">Tambah ke Keranjang</button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="book13"
-        style="background-image: url({{ url_for('static', filename='img/manga/assasinclassroom.jpg') }})"
-      >
-        <div class="overlay">
-          <div class="items"></div>
-          <div class="items head">
-            <p>Assasin Classroom</p>
-            <hr />
-          </div>
-          <div class="items price">
-            <p class="old">Rp 75.000</p>
-            <p class="new">Rp 55.000</p>
-          </div>
-          <div class="items cart">
-            <i class="fa fa-shopping-cart"></i>
-            <button onclick="addToCart('AssasinClass', 75000)">Tambah ke Keranjang</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    
 
     <!--Footer-->
     <div class="container-3">
@@ -576,8 +321,8 @@
                 <div class="single-cta">
                   <i class="fas fa-map-marker-alt"></i>
                   <div class="cta-text">
-                    <h4>Find us</h4>
-                    <span>1010 Avenue, sw 54321, chandigarh</span>
+                    <h4>Berada di</h4>
+                    <span>Indoneisa</span>
                   </div>
                 </div>
               </div>
@@ -585,7 +330,7 @@
                 <div class="single-cta">
                   <i class="fas fa-phone"></i>
                   <div class="cta-text">
-                    <h4>Call us</h4>
+                    <h4>Hubungi Kami</h4>
                     <span>9876543210 0</span>
                   </div>
                 </div>
@@ -594,7 +339,7 @@
                 <div class="single-cta">
                   <i class="far fa-envelope-open"></i>
                   <div class="cta-text">
-                    <h4>Mail us</h4>
+                    <h4>Email Kami</h4>
                     <span>mail@info.com</span>
                   </div>
                 </div>
@@ -687,8 +432,8 @@
               <div class="col-xl-6 col-lg-6 text-center text-lg-left">
                 <div class="copyright-text">
                   <p>
-                    Copyright &copy; 2018, All Right Reserved
-                    <a href="https://codepen.io/anupkumar92/">Anup</a>
+                    Copyright &copy; 2023, All Right Reserved
+                    <a href="https://github.com/Ceek350/flask_web_komik">Hfdz</a>
                   </p>
                 </div>
               </div>
@@ -701,6 +446,56 @@
 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 crossorigin="anonymous"></script>
 <script>
+      const comicsContainer = document.getElementById('comics-container');
+
+fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
+  .then(response => response.json())
+  .then(data => {
+    data.data.forEach(comic => { // Sesuaikan dengan struktur data yang benar
+      const cardDeck = document.createElement('div');
+      cardDeck.classList.add('col'); // Atur class Bootstrap untuk responsif
+
+      const card = document.createElement('div');
+      card.classList.add('card', 'dark-bg'); // Tambahkan kelas dark-bg untuk background gelap
+
+      const img = document.createElement('img');
+      img.classList.add('card-img-top');
+      img.src = comic.image;
+      img.alt = comic.title;
+
+      const cardBody = document.createElement('div');
+      cardBody.classList.add('card-body');
+
+      const title = document.createElement('h5');
+      title.classList.add('card-title');
+      title.textContent = comic.title;
+
+      const desc = document.createElement('p');
+      desc.classList.add('card-text');
+      desc.textContent = comic.desc;
+
+      const btn = document.createElement('button');
+      btn.classList.add('btn', 'btn-primary');
+      btn.textContent = 'Tambah ke Keranjang';
+      btn.onclick = function() {
+        addToCart(comic.title, 75000); // Menggunakan judul komik dan harga yang sesuai
+      };
+
+      cardBody.appendChild(title);
+      cardBody.appendChild(desc);
+      cardBody.appendChild(btn);
+
+      card.appendChild(img);
+      card.appendChild(cardBody);
+
+      cardDeck.appendChild(card);
+      comicsContainer.appendChild(cardDeck);
+    });
+  })
+  .catch(error => {
+    console.log('Error fetching data:', error);
+  });
+
   function profilbtn() {
     var profil = document.getElementById('profilside')
     profil.classList.add("active")
@@ -721,7 +516,15 @@ crossorigin="anonymous"></script>
 
   let cart = [];
   let total = 0;
-  let email = ""
+  let email = "";
+  let price = 0;
+  if (comic.title === 'Judul 1') {
+            price = 60000; // Ubah harga sesuai kebutuhan
+          } else if (comic.title === 'Judul 2') {
+            price = 80000; // Ubah harga sesuai kebutuhan
+          } else {
+            price = 70000; // Harga default jika judul tidak ada dalam kondisi di atas
+          }
 
   function addToCart(productName, price) {
     cart.push({ name: productName, price: price });
@@ -746,6 +549,7 @@ crossorigin="anonymous"></script>
     profil.innerHTML = '';
     profil.textContent = `${msg}`;
   }
+
 
 
 </script>

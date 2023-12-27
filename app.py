@@ -11,43 +11,45 @@ app.secret_key = 'komikstore'
 
 # Create a connection to your MySQL database
 mydb = mysql.connector.connect(
-    host='sql12.freesqldatabase.com',
-    user='sql12671859',
+    host='sql.freedb.tech',
+    user='freedb_zerostore',
     port=3306,
-    password='43mqN4tAK9',
-    database='sql12671859'
+    password='9XcMJypct#5tX&J',
+    database='freedb_zerostore'
 )
 
 @app.route('/')
 def anu():
-    return render_template('index.html')
+    return render_template('index.html', user=None)
 
 @app.route('/home')
 def dashboard():
+    username = None
     if 'username' in session:
-        return render_template('index.html', username=session['username'])
+        return render_template('index.html', username, user=session['username'])
     else:
         return redirect('/logindb')
 
 @app.route('/logindb', methods=['GET', 'POST'])
 def logindb():
-    error = None  # Variabel untuk menyimpan pesan error
+    user = None
+    error = ''  # Variabel untuk menyimpan pesan error
 
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
         cursor = mydb.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM user_data WHERE username = %s', (username,))
+        cursor.execute('SELECT * FROM user_data WHERE username = %s and password = %s', (username, password))
         user = cursor.fetchone()
 
         if user and check_password_hash(user['password'], password):
             session['username'] = username
-            return redirect('/home')
+            return redirect('/home', username, user=session['username'])
         else:
             error = 'Invalid username or password'
 
-    return render_template('index.html', error=error)
+    return render_template('index.html', error=error, user=user)
 
 @app.route('/logout')
 def logout():
