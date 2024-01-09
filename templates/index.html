@@ -497,7 +497,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   });
 
   //usercek
-  fetch('flask-web-komik-git-main-bruhteam1.vercel.app/user')
+  fetch('/user')
             .then(response => response.json())
             .then(data => {
                 const userList = document.getElementById('user');

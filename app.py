@@ -94,7 +94,7 @@ def registerdb():
 
 
 #API User
-@app.route('/user', methods=['GET'])
+@app.route('/user', methods=['GET'], endpoint='v1')
 def get_users():
     cursor = mydb.cursor()
     cursor.execute("SELECT * FROM user_data")
