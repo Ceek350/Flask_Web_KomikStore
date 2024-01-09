@@ -247,13 +247,13 @@
                 <button class="close" onclick="closebtn()" style="left: 0; padding: 10px;">X</button>
                 <h2>PROFIL</h2>
                 <div class="profil" style="color: white;">
-                    Email: <span id="profil" >
+                    Email: <h2 id="user" >
                       {% if msg %}
                       <script>
                         alert("{{ msg }}")
                       </script>
                       {% endif %}
-                    </span>
+                    </h2>
                 </div>
             </div>
             </div>
@@ -495,6 +495,19 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   .catch(error => {
     console.log('Error fetching data:', error);
   });
+
+  //usercek
+  fetch('/user')
+            .then(response => response.json())
+            .then(data => {
+                const userList = document.getElementById('user');
+                data.forEach(user_data => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `ID: ${user_data[0]}, Username: ${user_data[1]}`;
+                    userList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error:', error));
 
   function profilbtn() {
     var profil = document.getElementById('profilside')

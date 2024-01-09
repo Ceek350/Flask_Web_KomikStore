@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, session
+from flask import Flask, render_template, url_for, request, redirect, session, jsonify
 import mysql.connector
 import re
 import hashlib
@@ -91,6 +91,19 @@ def registerdb():
         msg = 'Please fill out the form!'
     # Show registration form with message (if any)
     return render_template('register.html', msg=msg)
+
+
+#API User
+@app.route('/user', methods=['GET'])
+def get_users():
+    cursor = mydb.cursor()
+    cursor.execute("SELECT * FROM user_data")
+    users = cursor.fetchall()
+    cursor.close()
+    return jsonify(users)
+
+#API post
+#API Comment
 
 
 @app.route('/login')
