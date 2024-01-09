@@ -8,6 +8,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
 app.secret_key = 'komikstore'
+allowed_api_keys = ['abc123', '123abc']
+
+def check_api_key(api_key):
+    return api_key in allowed_api_keys
 
 # Create a connection to your MySQL database
 mydb = mysql.connector.connect(
@@ -24,36 +28,35 @@ def anu():
 
 @app.route('/home')
 def dashboard():
-    username = None
-    if 'username' in session:
-        return render_template('index.html', username, user=session['username'])
+    email = None
+    if 'email' in session:
+        return render_template('index.html', email, user=session['username'])
     else:
         return redirect('/logindb')
 
 @app.route('/logindb', methods=['GET', 'POST'])
 def logindb():
-    user = None
+    user = ''
     error = ''  # Variabel untuk menyimpan pesan error
 
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
 
         cursor = mydb.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM user_data WHERE username = %s and password = %s', (username, password))
+        cursor.execute('SELECT * FROM user_data WHERE email = %s and password = %s', (email, password))
         user = cursor.fetchone()
-
         if user and check_password_hash(user['password'], password):
-            session['username'] = username
-            return redirect('/home', username, user=session['username'])
+            session['email'] = email
+            return redirect('/home', email, user=session['email'])
         else:
-            error = 'Invalid username or password'
+            error = 'Invalid email or password'
 
     return render_template('index.html', error=error, user=user)
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
+    session.pop('email', None)
     return redirect('/login')
 
 @app.route('/registerdb', methods=['GET', 'POST'])
@@ -61,15 +64,14 @@ def registerdb():
     # Output message if something goes wrong...
     msg = ''
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'email' in request.form and 'username' in request.form and 'password' in request.form:
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
         # Create variables for easy access
         password = request.form['password']
         email = request.form['email']
-        username = request.form['username']
 
         # Check if account exists using MySQL
         cursor = mydb.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM user_data WHERE email = %s', (email,))
+        cursor.execute('SELECT * FROM user_data WHERE email = %s', (email))
         account = cursor.fetchone()
 
         # If account exists show error and validation checks
@@ -83,7 +85,7 @@ def registerdb():
             # Hash the password
             hash_password = hashlib.sha1((password + app.secret_key).encode()).hexdigest()
             # Account doesn't exist, and the form data is valid, so insert the new account into the accounts table
-            cursor.execute('INSERT INTO user_data (id, email, username, password) VALUES (NULL, %s, %s, %s)', (email, username, hash_password,))
+            cursor.execute('INSERT INTO user_data (id, email, password) VALUES (NULL, %s, %s)', (email, hash_password,))
             mydb.commit()
             msg = 'You have successfully registered! Now you can login'
     elif request.method == 'POST':
@@ -93,14 +95,31 @@ def registerdb():
     return render_template('register.html', msg=msg)
 
 
+#API KEY
+@app.route('/api/api_key', methods=['GET'])
+def api_key():
+    return render_template("api_key.html")
+
 #API User
 @app.route('/api/data', methods=['GET'], endpoint='v1')
 def get_users():
+    api_key = request.headers.get('api-key')
+    if not api_key or not check_api_key(api_key):
+        return jsonify({'message': 'Unauthorized'}, 401)
     cursor = mydb.cursor()
     cursor.execute("SELECT * FROM user_data")
     users = cursor.fetchall()
     cursor.close()
-    return jsonify(users)
+    return jsonify({'message': 'Data berhasil diambil'}, users)
+
+@app.route('/api/user', methods=['GET'])
+def get_user():
+    api_key = 'abc123'
+    cursor = mydb.cursor()
+    cursor.execute("SELECT * FROM user_data")
+    users = cursor.fetchall()
+    cursor.close()
+    return jsonify({'message': 'Data berhasil diambil'}, users)
 
 #API post
 #API Comment

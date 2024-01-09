@@ -236,7 +236,7 @@
               href="/"
               >Home</a>
             <button
-              class="nav-link active mt-2 d-flex justify-content-center"
+              class="nav-link mt-2 d-flex justify-content-center"
               onclick="profilbtn()"
               id="profil"
               aria-current="page"
@@ -247,7 +247,7 @@
                 <button class="close" onclick="closebtn()" style="left: 0; padding: 10px;">X</button>
                 <h2>PROFIL</h2>
                 <div class="profil" style="color: white;">
-                    Email: <h2 id="user" >
+                    User: <h2 style="font-size: 20px;" id="user" >
                       {% if msg %}
                       <script>
                         alert("{{ msg }}")
@@ -264,6 +264,9 @@
             >
             <a  class="nav-link mt-2 d-flex justify-content-center" href="/about_us"
               >About Us</a>
+            <a  class="nav-link mt-2 d-flex justify-content-center" href="/api/api_key"
+            >Api Key</a>
+            
             
             <a class="nav-link d-flex justify-content-center" href="#">
               <div class="container">
@@ -497,7 +500,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   });
 
   //usercek
-  fetch('/api/data')
+  fetch('/logindb')
             .then(response => response.json())
             .then(data => {
                 const userList = document.getElementById('user');
