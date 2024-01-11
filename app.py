@@ -10,8 +10,8 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 app.secret_key = 'komikstore'
 allowed_api_keys = ['abc123', '123abc']
 
-def check_api_key(api_key):
-    return api_key in allowed_api_keys
+def check_api_key(apiKey):
+    return apiKey in allowed_api_keys
 
 # Create a connection to your MySQL database
 mydb = mysql.connector.connect(
@@ -103,8 +103,8 @@ def api_key():
 #API User
 @app.route('/api/data', methods=['GET'], endpoint='v1')
 def get_users():
-    api_key = request.headers.get('api-key')
-    if not api_key or not check_api_key(api_key):
+    apiKey = request.headers.get('apiKey')
+    if not apiKey or not check_api_key(apiKey):
         return jsonify({'message': 'Unauthorized'}, 401)
     cursor = mydb.cursor()
     cursor.execute("SELECT * FROM user_data")
@@ -114,12 +114,17 @@ def get_users():
 
 @app.route('/api/user', methods=['GET'])
 def get_user():
-    api_key = 'abc123'
+    apiKey = 'abc123'
     cursor = mydb.cursor()
-    cursor.execute("SELECT * FROM user_data")
+    cursor.execute("SELECT * FROM user_data where email")
     users = cursor.fetchall()
     cursor.close()
     return jsonify({'message': 'Data berhasil diambil'}, users)
+
+#crud
+@app.route('/crud')
+def crud():
+    return render_template("crud.html")
 
 #API post
 #API Comment

@@ -247,7 +247,9 @@
                 <button class="close" onclick="closebtn()" style="left: 0; padding: 10px;">X</button>
                 <h2>PROFIL</h2>
                 <div class="profil" style="color: white;">
-                    User: <h2 style="font-size: 20px;" id="user" >
+                    User: 
+                    <a href="{{url_for('crud')}}">Kelola User</a>
+                    <h2 style="font-size: 20px;" id="user" >
                       {% if msg %}
                       <script>
                         alert("{{ msg }}")
