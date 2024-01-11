@@ -13,7 +13,7 @@ allowed_api_keys = ['abc123', '123abc']
 def check_api_key(apiKey):
     return apiKey in allowed_api_keys
 
-# Create a connection to your MySQL database
+# Create a connection to your MySQL db
 mydb = mysql.connector.connect(
     host='sql.freedb.tech',
     user='freedb_zerostore',
