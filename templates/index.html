@@ -240,7 +240,7 @@
               onclick="profilbtn()"
               id="profil"
               aria-current="page"
-              >PROFIL</button>
+              >PROFIL / USER</button>
             <div class="profilside" id="profilside">
               <!-- Isi Sidebar -->
               <div class="profilcart">
@@ -503,17 +503,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   });
 
   //usercek
-  fetch('/logindb')
-            .then(response => response.json())
-            .then(data => {
-                const userList = document.getElementById('user');
-                data.forEach(user_data => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `ID: ${user_data[0]}, Username: ${user_data[1]}`;
-                    userList.appendChild(listItem);
-                });
-            })
-            .catch(error => console.error('Error:', error));
+
 
   function profilbtn() {
     var profil = document.getElementById('profilside')
@@ -569,8 +559,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
     profil.textContent = `${msg}`;
   }
 
-
-
 </script>
+
 </body>
 </html>

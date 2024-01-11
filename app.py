@@ -107,16 +107,18 @@ def get_users():
     if not apiKey or not check_api_key(apiKey):
         return jsonify({'message': 'Unauthorized'}, 401)
     cursor = mydb.cursor()
-    cursor.execute("SELECT * FROM user_data")
+    cursor.execute("SELECT * FROM user_data where id")
     users = cursor.fetchall()
     cursor.close()
-    return jsonify({'message': 'Data berhasil diambil'}, users)
+    return jsonify(users)
 
 @app.route('/api/user', methods=['GET'])
 def get_user():
-    apiKey = 'abc123'
+    apiKey = request.headers.get('apiKey')
+    if not apiKey or not check_api_key(apiKey):
+        return jsonify({'message': 'Unauthorized'}, 401)
     cursor = mydb.cursor()
-    cursor.execute("SELECT * FROM user_data where email")
+    cursor.execute("SELECT * FROM user_data where id")
     users = cursor.fetchall()
     cursor.close()
     return jsonify({'message': 'Data berhasil diambil'}, users)
@@ -126,9 +128,7 @@ def get_user():
 def crud():
     return render_template("crud.html")
 
-#API post
-#API Comment
-
+#edit sama hapus belum
 
 @app.route('/login')
 def login():

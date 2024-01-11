@@ -3,69 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Table</title>
+    <title>Menampilkan Data dari API Flask</title>
 </head>
+<style>
+    #output td {
+        border: black;
+        border-style: solid;
+        padding: 15px;
+    }
+
+    #output tr a {
+        text-decoration: none;
+    }
+</style>
 <body>
-
-    <h1>Data Table</h1>
-
-    <table id="dataTable">
+    <h1>User Data Tabel</h1>
+    <table>
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Email</th>
-                <th>Password</th>
-            </tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Aksi</th>
         </thead>
-        <tbody>
-            <!-- Data will be displayed here -->
+        <tbody id="output">
+            <!-- Tempat data akan ditampilkan -->
         </tbody>
+        
     </table>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', fetchData);
-
-        async function fetchData() {
-            const api-key = 'abc123'; // Gantilah 'your_api_key' dengan nilai API key yang sesuai
-
-            try {
-                const response = await fetch('/api/data', {
-                    headers: {
-                        'api_key': api_key
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                displayData(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
-
-        function displayData(user_data) {
-            const tableBody = document.querySelector('#dataTable tbody');
-            
-            // Remove old data (if any)
-            while (tableBody.firstChild) {
-                tableBody.removeChild(tableBody.firstChild);
-            }
-
-            // Add new data to the table
-            user_data.forEach(item => {
-                const row = tableBody.insertRow();
-                const cell1 = row.insertCell(0);
-                const cell2 = row.insertCell(1);
-                const cell3 = row.insertCell(2);
-                cell1.textContent = item.id;
-                cell2.textContent = item.email;
-                cell3.textContent = item.password
-            });
-        }
-    </script>
-
+    <div>
+        <h1>tambah data</h1>
+        <a href="{{url_for('register')}}" style="text-decoration: none; color: blue;">+ tambah</a>
+    </div>
 </body>
+<script>
+    fetch('/api/data', {
+    headers: {
+        apiKey : 'abc123'
+    }
+    })
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('output');
+                while (tableBody.firstChild) {
+                    tableBody.removeChild(tableBody.firstChild);
+                }
+                data.forEach(data => {
+                    const row = tableBody.insertRow();
+                    const cell1 = row.insertCell(0);
+                    const cell2 = row.insertCell(1);
+                    const cell3 = row.insertCell(2);
+                    const cell4 = row.insertCell(3);
+                    cell1.textContent = `${data[0]}`;
+                    cell2.textContent = `${data[1]}`;
+                    cell3.textContent = `${data[2]}`;
+                    const edit = document.createElement('a');
+                    edit.textContent = 'Edit';
+                    edit.href = '/edit'
+                    const l = document.createElement('p')
+                    l.textContent = '|' 
+                    const hapus = document.createElement('a');
+                    hapus.textContent = 'Hapus';
+                    hapus.href = '/hapus'
+                    cell4.appendChild(edit);
+                    cell4.appendChild(l);
+                    cell4.appendChild(hapus);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+</script>
 </html>
