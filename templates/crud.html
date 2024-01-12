@@ -14,6 +14,7 @@
 
     #output tr a {
         text-decoration: none;
+        margin-right: 5px; /* Add some spacing between Edit and Delete links */
     }
 </style>
 <body>
@@ -28,47 +29,49 @@
         <tbody id="output">
             <!-- Tempat data akan ditampilkan -->
         </tbody>
-        
     </table>
     <div>
         <h1>tambah data</h1>
-        <a href="{{url_for('register')}}" style="text-decoration: none; color: blue;">+ tambah</a>
+        <a href="https://zerostore.onrender.com/register" style="text-decoration: none; color: blue;">+ tambah</a>
     </div>
 </body>
 <script>
     fetch('/api/data', {
-    headers: {
-        apiKey : 'abc123'
-    }
+        headers: {
+            apiKey: 'abc123'
+        }
     })
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.getElementById('output');
-                while (tableBody.firstChild) {
-                    tableBody.removeChild(tableBody.firstChild);
-                }
-                data.forEach(data => {
-                    const row = tableBody.insertRow();
-                    const cell1 = row.insertCell(0);
-                    const cell2 = row.insertCell(1);
-                    const cell3 = row.insertCell(2);
-                    const cell4 = row.insertCell(3);
-                    cell1.textContent = `${data[0]}`;
-                    cell2.textContent = `${data[1]}`;
-                    cell3.textContent = `${data[2]}`;
-                    const edit = document.createElement('a');
-                    edit.textContent = 'Edit';
-                    edit.href = '/edit'
-                    const l = document.createElement('p')
-                    l.textContent = '|' 
-                    const hapus = document.createElement('a');
-                    hapus.textContent = 'Hapus';
-                    hapus.href = '/hapus'
-                    cell4.appendChild(edit);
-                    cell4.appendChild(l);
-                    cell4.appendChild(hapus);
-                });
-            })
-            .catch(error => console.error('Error:', error));
+    .then(response => response.json())
+    .then(data => {
+        const tableBody = document.getElementById('output');
+        while (tableBody.firstChild) {
+            tableBody.removeChild(tableBody.firstChild);
+        }
+        data.forEach(data => {
+            const row = tableBody.insertRow();
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+            const cell4 = row.insertCell(3);
+            cell1.textContent = `${data[0]}`;
+            cell2.textContent = `${data[1]}`;
+            cell3.textContent = `${data[2]}`;
+            
+            const edit = document.createElement('a');
+            edit.textContent = 'Edit';
+            edit.href = `/edit/<int:user_id>`;  // Pass the user ID to the edit route
+            const l = document.createElement('p');
+            l.textContent = '|';
+            const hapus = document.createElement('a');
+            hapus.textContent = 'Hapus';
+            hapus.href = `/delete/${data[0]}`;  // Pass the user ID to the delete route
+            
+            cell4.appendChild(edit);
+            cell4.appendChild(l);
+            cell4.appendChild(hapus);
+        });
+    })
+    .catch(error => console.error('Error:', error));
 </script>
 </html>
+

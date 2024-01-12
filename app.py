@@ -103,7 +103,7 @@ def api_key():
 #API User
 @app.route('/api/data', methods=['GET'], endpoint='v1')
 def get_users():
-    apiKey = request.headers.get('apiKey')
+    apiKey = 'abc123'
     if not apiKey or not check_api_key(apiKey):
         return jsonify({'message': 'Unauthorized'}, 401)
     cursor = mydb.cursor()
@@ -128,7 +128,33 @@ def get_user():
 def crud():
     return render_template("crud.html")
 
-#edit sama hapus belum
+#edit sama hapus 
+@app.route('/edit/<int:user_id>', methods=['GET', 'POST'])
+def edit_user(user_id):
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM user_data WHERE id = %s', (user_id,))
+    user = cursor.fetchone()
+
+    if request.method == 'POST':
+        new_email = request.form['email']
+        new_password = request.form['password']
+
+        # Update the user's email and password
+        cursor.execute('UPDATE user_data SET email = %s, password = %s WHERE id = %s', (new_email, new_password, user_id))
+        mydb.commit()
+
+        return redirect('/crud')  # You can redirect to a different page after editing
+
+    return render_template('edit.html', user=user)
+
+@app.route('/delete/<int:user_id>', methods=['GET'])
+def delete_user(user_id):
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute('DELETE FROM user_data WHERE id = %s', (user_id,))
+    mydb.commit()
+
+    return redirect('/crud')  # You can redirect to a different page after deleting
+
 
 @app.route('/login')
 def login():
