@@ -22,6 +22,17 @@ mydb = mysql.connector.connect(
     database='freedb_zerostore'
 )
 
+def initialize_database():
+    # Placeholder for your actual MySQL database connection setup
+    mydb = mysql.connector.connect(
+    host='sql.freedb.tech',
+    user='freedb_zerostore',
+    port=3306,
+    password='9XcMJypct#5tX&J',
+    database='freedb_zerostore'
+)
+    return mydb
+
 @app.route('/')
 def anu():
     return render_template('index.html', user=None)
@@ -131,6 +142,11 @@ def crud():
 #edit sama hapus 
 @app.route('/edit/<int:user_id>', methods=['GET', 'POST'])
 def edit_user(user_id):
+    # Placeholder for database connection setup
+    global mydb
+    if mydb is None:
+        mydb = initialize_database()
+
     cursor = mydb.cursor(dictionary=True)
     cursor.execute('SELECT * FROM user_data WHERE id = %s', (user_id,))
     user = cursor.fetchone()
@@ -143,9 +159,10 @@ def edit_user(user_id):
         cursor.execute('UPDATE user_data SET email = %s, password = %s WHERE id = %s', (new_email, new_password, user_id))
         mydb.commit()
 
-        return redirect('/crud')  # You can redirect to a different page after editing
+        return redirect('/crud')  # Redirect to the CRUD page after editing
 
     return render_template('edit.html', user=user)
+
 
 @app.route('/delete/<int:user_id>', methods=['GET'])
 def delete_user(user_id):

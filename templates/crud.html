@@ -59,7 +59,7 @@
             
             const edit = document.createElement('a');
             edit.textContent = 'Edit';
-            edit.href = `/edit/<int:user_id>`;  // Pass the user ID to the edit route
+            edit.href = `/edit/${data[0]}`;  // Pass the user ID to the edit route
             const l = document.createElement('p');
             l.textContent = '|';
             const hapus = document.createElement('a');
