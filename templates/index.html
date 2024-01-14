@@ -309,6 +309,10 @@
       <p>API list komik: https://komiku-api.fly.dev/api/comic/popular/page/1</p>
       <p>API user_data: https://flask-web-komik-git-main-bruhteam1.vercel.app/api/data</p>
     </div>
+    <div class="container mt-3 mb-3">
+      <input type="text" id="searchInput" class="form-control" placeholder="Cari Judul">
+      <button id="searchBtn" class="col-md-12 text-center btn btn-primary">Search</button>
+    </div>
     <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
         <div class="row row-cols-1 row-cols-md-3 g-4" id="comics-container">
           <!-- Daftar kartu komik akan ditampilkan di sini -->
@@ -560,6 +564,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   }
 
 </script>
+<script src="static/js/search.js"></script>
 
 </body>
 </html>
