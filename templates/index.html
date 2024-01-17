@@ -172,13 +172,17 @@
       background-color: #343a40; /* Ubah sesuai dengan preferensi warna Anda */
       color: white; /* Ubah warna teks jika diperlukan */
       height: 100%; /* Tentukan ketinggian untuk semua kartu */
-    }
+}
+
+#searchBtn {
+    width: 100%;
+}
 
 @media only screen and (max-width:300px) {
   #krnjg {
     display: block;
     right: 0;
-    margin-top: 50px;
+    margin-top: 35px;
     margin-right: -50px;
   }
 
@@ -190,6 +194,8 @@
     width: 300px;
     transform: translateX(300px);
   }
+
+  
 }
 
 @media only screen and (min-width:991px) {
@@ -501,6 +507,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
       btn.textContent = 'Tambah ke Keranjang';
       btn.onclick = function() {
         addToCart(comic.title, 75000); // Menggunakan judul komik dan harga yang sesuai
+        alert('sukses menambahkan, cek keranjang!')
       };
 
       cardBody.appendChild(title);
