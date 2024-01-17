@@ -174,8 +174,15 @@
       height: 100%; /* Tentukan ketinggian untuk semua kartu */
     }
 
-@media only screen and (max-width:415px) {
+@media only screen and (max-width:300px) {
   #krnjg {
+    display: block;
+    right: 0;
+    margin-top: 50px;
+    margin-right: -50px;
+  }
+
+  #krnjg-nav {
     display: none;
   }
 }
@@ -226,7 +233,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div
-          class="collapse navbar-collapse justify-content-end"
+          class="collapse navbar-collapse show justify-content-end"
           id="navbarNavAltMarkup"
         >
           <div class="navbar-nav" style="gap: 10px; text-transform: uppercase; margin-right: 10px;">
@@ -272,7 +279,7 @@
             
             <a class="nav-link d-flex justify-content-center" href="#">
               <div class="container">
-                <button class="toggle-btn" onclick="toggleSidebar()" style="font-size: 30px;">🛒</button>
+                <button class="toggle-btn" id="krnjg-nav" onclick="toggleSidebar()" style="font-size: 30px;">🛒</button>
                 <div class="sidebar" id="sidebar">
                   <!-- Isi Sidebar -->
                   <div class="sidecart">
