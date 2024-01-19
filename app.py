@@ -4,8 +4,7 @@ import re
 import hashlib
 from passlib.hash import sha256_crypt
 from werkzeug.security import generate_password_hash, check_password_hash
-from midtransclient import Snap, CoreApi
-import datetime
+
 
 
 CLIENT_KEY = 'SB-Mid-client-Ay1WobiGTcJNoVKs'

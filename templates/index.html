@@ -593,11 +593,11 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   }
 
   return randomId;
-}
+  }
 
-// Contoh penggunaan untuk membuat ID acak dengan panjang 8 karakter
-const randomId = generateRandomId(8);
-console.log(randomId);
+  // Contoh penggunaan untuk membuat ID acak dengan panjang 8 karakter
+  const randomId = generateRandomId(8);
+  console.log(randomId);
 
 
 
@@ -607,7 +607,7 @@ console.log(randomId);
   const basicAuth = `Basic ${encodedSecret}`;
   console.log(basicAuth);
 
-// Example of a valid 'data' object
+  // Example of a valid 'data' object
   let data = {
   "transaction_details": {
     "order_id": randomId,
@@ -620,7 +620,7 @@ console.log(randomId);
       "price": total,
       "quantity": 1
     }]
-}
+  }
 
 
   try {
@@ -646,9 +646,9 @@ console.log(randomId);
     // Proses redirect atau tindakan lain sesuai kebutuhan
     // ...
   } catch (error) {
-    console.error('Error fetching data:', error);
+      console.error('Error fetching data:', error);
+    }
   }
-}
 
 
 </script>
