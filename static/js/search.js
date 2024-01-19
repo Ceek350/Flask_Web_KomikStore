@@ -35,7 +35,7 @@ document.getElementById('searchBtn').addEventListener('click', function() {
                 btn.classList.add('btn', 'btn-primary');
                 btn.textContent = 'Tambah ke Keranjang';
                 btn.onclick = function() {
-                    addToCart(comic.title, 75000); // Using title to add price
+                    addToCart(comic.title, price); // Using title to add price
                 };
   
                 cardBody.appendChild(title);

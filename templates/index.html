@@ -297,9 +297,9 @@
                         <!-- Isi Keranjang akan ditampilkan di sini -->
                     </ul>
                     <div class="total" style="color: white;">
-                        Total: Rp<span id="cart-total" >0</span>
+                        Total: Rp.<span id="cart-total" >0</span>
                     </div>
-                    <button class="co" onclick="checkout()">Checkout</button>
+                    <button type="button" class="btn-beli btn btn-danger px-2" onclick="generateAndRedirect(productName, total)">Checkcout</button>
                 </div>
                 </div>
             </a>
@@ -548,15 +548,17 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   let total = 0;
   let email = "";
   let price = 0;
-  if (comic.title === 'Judul 1') {
+  let productName;
+
+
+  function addToCart(productName, price) {
+    if (productName === 'Jujutsu Kaisen') {
             price = 60000; // Ubah harga sesuai kebutuhan
-          } else if (comic.title === 'Judul 2') {
+          } else if (productName === 'Judul 2') {
             price = 80000; // Ubah harga sesuai kebutuhan
           } else {
             price = 70000; // Harga default jika judul tidak ada dalam kondisi di atas
-          }
-
-  function addToCart(productName, price) {
+          };
     cart.push({ name: productName, price: price });
     total += price;
     updateCart();
@@ -566,9 +568,9 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
     let cartItems = document.getElementById('cart-items');
     let cartTotal = document.getElementById('cart-total');
     cartItems.innerHTML = '';
-    cart.forEach(item => {
+    cart.forEach(comic => {
       let li = document.createElement('li');
-      li.textContent = `${item.name} - $${item.price}`;
+      li.textContent = `${comic.name} - Rp.${comic.price}`;
       cartItems.appendChild(li);
     });
     cartTotal.textContent = total;
@@ -580,8 +582,78 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
     profil.textContent = `${msg}`;
   }
 
+  //pembayaran
+  function generateRandomId(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomId = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomId += characters.charAt(randomIndex);
+  }
+
+  return randomId;
+}
+
+// Contoh penggunaan untuk membuat ID acak dengan panjang 8 karakter
+const randomId = generateRandomId(8);
+console.log(randomId);
+
+
+
+  async function generateAndRedirect() {
+  const secret = 'SB-Mid-server-1kIui_HMHRTk9rRgzDZP4MIQ';
+  const encodedSecret = btoa(encodeURIComponent(secret));
+  const basicAuth = `Basic ${encodedSecret}`;
+  console.log(basicAuth);
+
+// Example of a valid 'data' object
+  let data = {
+  "transaction_details": {
+    "order_id": randomId,
+    "gross_amount": total
+  },
+  "item_details": [
+    {
+      "id": randomId,
+      "name": "Komik",
+      "price": total,
+      "quantity": 1
+    }]
+}
+
+
+  try {
+    const response = await fetch(`https://api.sandbox.midtrans.com/v1/payment-links`, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": basicAuth
+      },
+      body: JSON.stringify(data)
+    });
+
+    const paymentLink = await response.json();
+    console.log(paymentLink);
+    if (paymentLink && paymentLink.payment_url) {
+      // Redirect pengguna ke payment_url
+      window.location.href = paymentLink.payment_url;
+    } else {
+      console.error('Invalid response structure:', paymentLink);
+    }
+
+    // Proses redirect atau tindakan lain sesuai kebutuhan
+    // ...
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+
 </script>
 <script src="static/js/search.js"></script>
+
 
 </body>
 </html>

@@ -4,6 +4,13 @@ import re
 import hashlib
 from passlib.hash import sha256_crypt
 from werkzeug.security import generate_password_hash, check_password_hash
+from midtransclient import Snap, CoreApi
+import datetime
+
+
+CLIENT_KEY = 'SB-Mid-client-Ay1WobiGTcJNoVKs'
+
+
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -184,6 +191,20 @@ def register():
 @app.route('/about_us')
 def about():
     return render_template("AboutUs.html")
+
+#pembayaran link
+@app.route('/tks')
+def tks():
+    return render_template('tks.html')
+
+@app.route('/gagal')
+def ggl():
+    return render_template('gagal.html')
+
+@app.route('/error')
+def err():
+    return render_template('error.html')
+
 
 if __name__== '__main__':
     app.run(debug=True)
