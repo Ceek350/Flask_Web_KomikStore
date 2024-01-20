@@ -1,10 +1,10 @@
 from flask import Flask, render_template, url_for, request, redirect, session, jsonify
 import mysql.connector
 import re
-import hashlib
+import hashlib 
+from hashlib import sha256
 from passlib.hash import sha256_crypt
 from werkzeug.security import generate_password_hash, check_password_hash
-
 
 
 CLIENT_KEY = 'SB-Mid-client-Ay1WobiGTcJNoVKs'
@@ -45,31 +45,43 @@ def anu():
 
 @app.route('/home')
 def dashboard():
-    email = None
+    user = None
     if 'email' in session:
-        return render_template('index.html', email, user=session['username'])
+        email = session['email']
+        cursor = mydb.cursor(dictionary=True)
+        cursor.execute('SELECT * FROM user_data WHERE email = %s', (email,))
+        user = cursor.fetchone()
+        
+        return render_template('index.html', user=user)
     else:
-        return redirect('/logindb')
+        return redirect('/login')
 
 @app.route('/logindb', methods=['GET', 'POST'])
 def logindb():
-    user = ''
-    error = ''  # Variabel untuk menyimpan pesan error
+    # Output message if something goes wrong...
+    msg = ''
 
-    if request.method == 'POST':
+    # Check if "email" and "password" POST requests exist (user submitted form)
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+        # Create variables for easy access
         email = request.form['email']
         password = request.form['password']
 
+        # Check if the account exists using MySQL
         cursor = mydb.cursor(dictionary=True)
         cursor.execute('SELECT * FROM user_data WHERE email = %s and password = %s', (email, password))
-        user = cursor.fetchone()
-        if user and check_password_hash(user['password'], password):
-            session['email'] = email
-            return redirect('/home', email, user=session['email'])
-        else:
-            error = 'Invalid email or password'
+        account = cursor.fetchone()
 
-    return render_template('index.html', error=error, user=user)
+        # If account exists, verify the password
+        if account:
+            session['email'] = email
+            return redirect('/home')  # Redirect to the home page after successful login
+        else:
+            msg = 'Invalid email or password'
+
+    # Show login form with message (if any)
+    return render_template('login.html', msg=msg)
+
 
 @app.route('/logout')
 def logout():
@@ -83,12 +95,12 @@ def registerdb():
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
         # Create variables for easy access
-        password = request.form['password']
         email = request.form['email']
-
+        password = request.form['password']
+        
         # Check if account exists using MySQL
         cursor = mydb.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM user_data WHERE email = %s', (email))
+        cursor.execute('SELECT * FROM user_data WHERE email = %s', (email,))
         account = cursor.fetchone()
 
         # If account exists show error and validation checks
@@ -99,10 +111,10 @@ def registerdb():
         elif not password or not email:
             msg = 'Please fill out the form!'
         else:
-            # Hash the password
-            hash_password = hashlib.sha1((password + app.secret_key).encode()).hexdigest()
+            # Hash the password using SHA-256
+            hash_password = sha256((password + app.secret_key).encode()).hexdigest()
             # Account doesn't exist, and the form data is valid, so insert the new account into the accounts table
-            cursor.execute('INSERT INTO user_data (id, email, password) VALUES (NULL, %s, %s)', (email, hash_password,))
+            cursor.execute('INSERT INTO user_data (id, email, password) VALUES (NULL, %s, %s)', (email, password,))
             mydb.commit()
             msg = 'You have successfully registered! Now you can login'
     elif request.method == 'POST':

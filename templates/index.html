@@ -263,13 +263,16 @@
                 <button class="close" onclick="closebtn()" style="left: 0; padding: 10px;">X</button>
                 <h2>PROFIL</h2>
                 <div class="profil" style="color: white;">
-                    User: 
-                    <a href="{{url_for('crud')}}">Kelola User</a>
-                    <h2 style="font-size: 20px;" id="user" >
-                      {% if msg %}
-                      <script>
-                        alert("{{ msg }}")
-                      </script>
+                    User:
+                    <a href="/edit/{{ user.id }}">Kelola User</a>
+                    <h2 style="font-size: 15px; margin-top: 30px;" id="user" >
+                      {% if user %}
+                      <h1 style="font-size: 16px; text-transform: none;">Yo! {{ user.email }}</h1>
+                      <p style="font-size: 16px;">user ID mu: {{ user.id }}</p>
+                      <!-- Tambahkan elemen HTML lainnya yang sesuai dengan data pengguna yang ingin ditampilkan -->
+                      <a href="/logout">Logout</a>
+                      {% else %}
+                      <p>Tolong <a href="/login">login</a> untuk mengakses profil</p>
                       {% endif %}
                     </h2>
                 </div>
