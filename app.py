@@ -216,6 +216,12 @@ def ggl():
 def err():
     return render_template('error.html')
 
+#API Free
+@app.route('/test')
+def test():
+    data = {"siapa aku?":"aku seorang web developer"}
+    return jsonify(data)
+
 
 if __name__== '__main__':
     app.run(debug=True)
