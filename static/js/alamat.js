@@ -10,6 +10,7 @@ function saveAddress() {
     // Misalnya, Anda dapat menggunakan localStorage atau variabel global
     // Contoh menggunakan localStorage:
     localStorage.setItem('savedAddress', JSON.stringify({
+        name: nameValue,
         address: addressValue,
         city: cityValue,
         postalCode: postalCodeValue,
