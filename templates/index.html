@@ -46,14 +46,14 @@
 
 .sidebar {
   width: 400px;
-  height: 50vh;
+  height: 70dvh;
   background: #333;
   color: white;
   transition: all 0.5s ease;
   transform: translateX(400px);
   overflow-y: auto;
   position: fixed;
-  top: 0;
+  top: 10px;
   right: 0;
   z-index: 1;
   border-radius: 20px;
@@ -302,21 +302,24 @@
                   <!-- Isi Sidebar -->
                   <div class="sidecart">
                     <h2>Keranjang Belanja</h2>
+                    <div id="alamat" style="display: block;">
+                      <form id="addressForm">
+                        <label for="address">Alamat:</label>
+                        <input type="text" id="address" name="address" required>
+        
+                        <label for="city" style="padding: 5px;">Kota: </label>
+                        <input type="text" id="city" name="city" required>
+        
+                        <label for="postalCode">Kode Pos:</label>
+                        <input type="text" id="postalCode" name="postalCode" required>
+        
+                        <label for="phone">Nomor Telepon/Wa:</label>
+                        <input type="text" id="phone" name="phone" required>
+                      </form>
+                    </div>
+                    <h3 style="text-transform: none; font-size: 17px; margin-top: 10px;">Items:</h3>
                     <ul id="cart-items">
                         <!-- Isi Keranjang akan ditampilkan di sini -->
-                        <div id="alamat" style="display: none;">
-                          <label for="address">Alamat:</label>
-                          <input type="text" id="address" name="address" required>
-            
-                          <label for="city">Kota:</label>
-                          <input type="text" id="city" name="city" required>
-            
-                          <label for="postalCode">Kode Pos:</label>
-                          <input type="text" id="postalCode" name="postalCode" required>
-            
-                          <label for="phone">Nomor Telepon/Wa:</label>
-                          <input type="text" id="phone" name="phone" required>
-                        </div>
                     </ul>
                     <div class="total" style="color: white;">
                         Total: Rp.<span id="cart-total" >0</span>
@@ -529,7 +532,6 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
       btn.textContent = 'Tambah ke Keranjang';
       btn.onclick = function() {
         addToCart(comic.title, 75000); // Menggunakan judul komik dan harga yang sesuai
-        alert('sukses menambahkan, cek keranjang!')
       };
 
       cardBody.appendChild(title);
@@ -576,25 +578,28 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
 
   function addToCart(productName, price) {
-    if (cart.length > 0) {
-    // Jika keranjang tidak kosong, tampilkan elemen "alamat"
-    document.getElementById('alamat').style.display = 'block';
-  } else {
-    // Jika keranjang kosong, sembunyikan elemen "alamat"
-    document.getElementById('alamat').style.display = 'none';
-  }
     selectedComic = productName;
+
+    // Determine the price based on the product name
     if (productName === 'Jujutsu Kaisen') {
-            price = 60000; // Ubah harga sesuai kebutuhan
-          } else if (productName === 'Judul 2') {
-            price = 80000; // Ubah harga sesuai kebutuhan
-          } else {
-            price = 70000; // Harga default jika judul tidak ada dalam kondisi di atas
-          };
+      price = 60000;
+    } else if (productName === 'Judul 2') {
+      price = 80000;
+    } else {
+      price = 70000;
+    }
+
+    // Add the product to the cart
     cart.push({ name: productName, price: price });
+
+    // Update the total price
     total += price;
+
+    // Update the cart view
     updateCart();
+    alert('berhasil ditambahkan, silahkan cek keranjang');
   }
+
   
   function updateCart() {
     let cartItems = document.getElementById('cart-items');
