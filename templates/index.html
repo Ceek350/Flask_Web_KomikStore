@@ -559,10 +559,11 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   let total = 0;
   let email = "";
   let price = 0;
-  let productName;
+  let selectedComic;
 
 
   function addToCart(productName, price) {
+    selectedComic = productName;
     if (productName === 'Jujutsu Kaisen') {
             price = 60000; // Ubah harga sesuai kebutuhan
           } else if (productName === 'Judul 2') {
@@ -582,6 +583,21 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
     cart.forEach(comic => {
       let li = document.createElement('li');
       li.textContent = `${comic.name} - Rp.${comic.price}`;
+      let addressForm = document.createElement('form');
+        addressForm.innerHTML = `
+            <label for="address">Alamat:</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="city">Kota:</label>
+            <input type="text" id="city" name="city" required>
+
+            <label for="postalCode">Kode Pos:</label>
+            <input type="text" id="postalCode" name="postalCode" required>
+
+            <label for="phone">Nomor Telepon/Wa:</label>
+            <input type="text" id="phone" name="phone" required>
+        `;
+      li.appendChild(addressForm);
       cartItems.appendChild(li);
     });
     cartTotal.textContent = total;
@@ -627,10 +643,18 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   "item_details": [
     {
       "id": randomId,
-      "name": "Komik",
+      "name": selectedComic,
       "price": total,
       "quantity": 1
-    }]
+    }],
+  "customer_details": {
+    "billing_address": {
+      // Ambil nilai dari formulir alamat
+      "address": document.getElementById("address").value,
+      "city": document.getElementById("city").value,
+      "postal_code": document.getElementById("postalCode").value,
+      "phone": document.getElementById("phone").value,
+    }}
   }
 
 
