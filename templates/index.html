@@ -184,6 +184,10 @@
     width: 100%;
 }
 
+#addressForm label {
+  padding: 10px;
+}
+
 @media only screen and (min-width:300px) and (max-width:990px) {
   #krnjg {
     display: block;
@@ -304,10 +308,13 @@
                     <h2>Keranjang Belanja</h2>
                     <div id="alamat" style="display: block;">
                       <form id="addressForm">
+                        <label for="name">Nama:</label>
+                        <input type="text" id="name" name="name" required>
+
                         <label for="address">Alamat:</label>
                         <input type="text" id="address" name="address" required>
         
-                        <label for="city" style="padding: 5px;">Kota: </label>
+                        <label for="city" >Kota: </label>
                         <input type="text" id="city" name="city" required>
         
                         <label for="postalCode">Kode Pos:</label>
@@ -315,6 +322,7 @@
         
                         <label for="phone">Nomor Telepon/Wa:</label>
                         <input type="text" id="phone" name="phone" required>
+                        <button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="saveAddress()">Simpan Alamat</button>
                       </form>
                     </div>
                     <h3 style="text-transform: none; font-size: 17px; margin-top: 10px;">Items:</h3>
@@ -325,7 +333,7 @@
                         Total: Rp.<span id="cart-total" >0</span>
                     </div>
                     <button type="button" class="btn-beli btn btn-danger px-2" onclick="generateAndRedirect(productName, total)">Checkcout</button>
-                </div>
+                  </div>
                 </div>
             </a>
           </div>
@@ -575,6 +583,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   let email = "";
   let price = 0;
   let selectedComic;
+  let productName;
 
 
   function addToCart(productName, price) {
@@ -658,12 +667,12 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
       "quantity": 1
     }],
   "customer_details": {
+    "first_name": saveAddress.name,
     "billing_address": {
-      // Ambil nilai dari formulir alamat
-      "address": document.getElementById("address").value,
-      "city": document.getElementById("city").value,
-      "postal_code": document.getElementById("postalCode").value,
-      "phone": document.getElementById("phone").value,
+      "address": saveAddress.address,
+      "city": saveAddress.city,
+      "postal_code": saveAddress.postalCode,
+      "phone": saveAddress.phone,
     }}
   }
 
@@ -698,7 +707,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
 </script>
 <script src="static/js/search.js"></script>
-
-
+<script src="static/js/alamat.js"></script>
+<script src="static/js/ambil_alamat.js"></script>
 </body>
 </html>
