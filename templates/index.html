@@ -304,6 +304,19 @@
                     <h2>Keranjang Belanja</h2>
                     <ul id="cart-items">
                         <!-- Isi Keranjang akan ditampilkan di sini -->
+                        <div id="alamat" style="display: none;">
+                          <label for="address">Alamat:</label>
+                          <input type="text" id="address" name="address" required>
+            
+                          <label for="city">Kota:</label>
+                          <input type="text" id="city" name="city" required>
+            
+                          <label for="postalCode">Kode Pos:</label>
+                          <input type="text" id="postalCode" name="postalCode" required>
+            
+                          <label for="phone">Nomor Telepon/Wa:</label>
+                          <input type="text" id="phone" name="phone" required>
+                        </div>
                     </ul>
                     <div class="total" style="color: white;">
                         Total: Rp.<span id="cart-total" >0</span>
@@ -563,6 +576,13 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
 
   function addToCart(productName, price) {
+    if (cart.length > 0) {
+    // Jika keranjang tidak kosong, tampilkan elemen "alamat"
+    document.getElementById('alamat').style.display = 'block';
+  } else {
+    // Jika keranjang kosong, sembunyikan elemen "alamat"
+    document.getElementById('alamat').style.display = 'none';
+  }
     selectedComic = productName;
     if (productName === 'Jujutsu Kaisen') {
             price = 60000; // Ubah harga sesuai kebutuhan
@@ -583,21 +603,6 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
     cart.forEach(comic => {
       let li = document.createElement('li');
       li.textContent = `${comic.name} - Rp.${comic.price}`;
-      let addressForm = document.createElement('form');
-        addressForm.innerHTML = `
-            <label for="address">Alamat:</label>
-            <input type="text" id="address" name="address" required>
-
-            <label for="city">Kota:</label>
-            <input type="text" id="city" name="city" required>
-
-            <label for="postalCode">Kode Pos:</label>
-            <input type="text" id="postalCode" name="postalCode" required>
-
-            <label for="phone">Nomor Telepon/Wa:</label>
-            <input type="text" id="phone" name="phone" required>
-        `;
-      li.appendChild(addressForm);
       cartItems.appendChild(li);
     });
     cartTotal.textContent = total;
