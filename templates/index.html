@@ -306,7 +306,7 @@
                   <!-- Isi Sidebar -->
                   <div class="sidecart">
                     <h2>Keranjang Belanja</h2>
-                    <div id="alamat" style="display: block;">
+                    <div id="alamat" style="display: none;">
                       <form id="addressForm">
                         <label for="name">Nama:</label>
                         <input type="text" id="name" name="name" required>
@@ -325,6 +325,7 @@
                         <button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="saveAddress()">Simpan Alamat</button>
                       </form>
                     </div>
+                    <h3 style="text-transform: none; font-size: 17px; margin-top: 10px; color: skyblue">Catatan: Setelah pesanan terkonfirmasi kami akan menghubungi anda melalui Wa atau Email. Terimakasih.</h3>
                     <h3 style="text-transform: none; font-size: 17px; margin-top: 10px;">Items:</h3>
                     <ul id="cart-items">
                         <!-- Isi Keranjang akan ditampilkan di sini -->
@@ -642,7 +643,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   }
 
   // Contoh penggunaan untuk membuat ID acak dengan panjang 8 karakter
-  const randomId = generateRandomId(8);
+  const randomId = generateRandomId(5);
   console.log(randomId);
 
 
@@ -666,14 +667,13 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
       "price": total,
       "quantity": 1
     }],
-  "customer_details": {
-    "first_name": saveAddress.name,
-    "billing_address": {
-      "address": saveAddress.address,
-      "city": saveAddress.city,
-      "postal_code": saveAddress.postalCode,
-      "phone": saveAddress.phone,
-    }}
+  "shipping_address": {
+    "first_name": savedAddress.name,
+    "phone": savedAddress.phone,
+    "address": savedAddress.address,
+    "city": savedAddress.city,
+    "postal_code": savedAddress.postalCode
+    }
   }
 
 

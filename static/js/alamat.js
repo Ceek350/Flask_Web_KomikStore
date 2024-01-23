@@ -1,6 +1,6 @@
 function saveAddress() {
     // Mengambil nilai dari formulir
-    var addressValue = document.getElementById('name').value;
+    var nameValue = document.getElementById('name').value;
     var addressValue = document.getElementById('address').value;
     var cityValue = document.getElementById('city').value;
     var postalCodeValue = document.getElementById('postalCode').value;
@@ -16,6 +16,5 @@ function saveAddress() {
         postalCode: postalCodeValue,
         phone: phoneValue
     }));
-
     alert('Alamat berhasil disimpan!');
 }
