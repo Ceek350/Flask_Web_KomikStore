@@ -55,6 +55,10 @@ def dashboard():
         return render_template('index.html', user=user)
     else:
         return redirect('/login')
+    
+@app.route('/me')
+def me():
+    return render_template('portofolio.html')
 
 @app.route('/logindb', methods=['GET', 'POST'])
 def logindb():
