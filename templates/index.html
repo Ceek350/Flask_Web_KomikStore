@@ -346,6 +346,9 @@
                         Total: Rp.<span id="cart-total" >0</span>
                     </div>
                     <button type="button" class="btn-beli btn btn-danger px-2" onclick="generateAndRedirect(productName, total)">Checkcout</button>
+                    <div class="link" style="color: white;">
+                      Link: <span id="linkuy" ></span>
+                    </div>
                   </div>
                 </div>
             </a>
@@ -722,9 +725,11 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
     const paymentLink = await response.json();
     console.log(paymentLink);
+    const paymentLinkElement = document.getElementsByClassName('link')
+    paymentLinkElement.innerHTML = `Link: ${paymentLink.payment_url}`;
     if (paymentLink && paymentLink.payment_url) {
       // Redirect pengguna ke payment_url
-      window.location.replace = paymentLink.payment_url;
+      window.location.href = paymentLink.payment_url;
     } else {
       console.error('Invalid response structure:', paymentLink);
     }
