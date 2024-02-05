@@ -710,23 +710,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
   // Example of a valid 'data' object
   let data = {
-    "transaction_details": {
-      "order_id": randomId,
-      "gross_amount": total
-    },
-    "item_details": cart.map(item => ({
-      "id": item.name,
-      "name": item.name,
-      "price": item.price,
-      "quantity": 1
-    })),
-    "shipping_address": {
-      "first_name": savedAddress.name,
-      "phone": savedAddress.phone,
-      "address": savedAddress.address,
-      "city": savedAddress.city,
-      "postal_code": savedAddress.postalCode
-    }
+    // ... (sama seperti sebelumnya)
   };
 
   try {
@@ -744,26 +728,18 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
     console.log(paymentLink);
 
     if (paymentLink && paymentLink.payment_url) {
-      // Menampilkan link pembayaran di dalam popup
-      const popupWindow = window.open('', '_blank', 'width=600,height=400');
-      popupWindow.document.write(`<p>Link pembayaran: ${paymentLink.payment_url}</p>`);
+      // Menampilkan informasi pembayaran dan tombol "Menuju ke pembayaran" di dalam modal
+      const modal = document.getElementById('paymentModal');
+      modal.style.display = 'block'; // Menampilkan modal
 
-      const button = popupWindow.document.createElement('button');
+      const paymentLinkContainer = document.getElementById('link');
+      paymentLinkContainer.textContent = `Link pembayaran: ${paymentLink.payment_url}`;
 
-      // Menambahkan atribut dan gaya pada elemen button
-      button.textContent = 'Menuju ke pembayaran';
-      button.classList.add('btn', 'btn-primary');  // Ganti dengan warna latar belakang yang diinginkan
-      button.style.color = 'white';          // Ganti dengan warna teks yang diinginkan
-
-      // Menambahkan event listener untuk menangani klik tombol
+      const button = document.getElementById('btnlink');
       button.addEventListener('click', function () {
         // Logika atau aksi yang ingin dilakukan ketika tombol diklik
-        popupWindow.close(); // Menutup popup sebelum redirect (jika diperlukan)
         redirectToPayment(paymentLink.payment_url);
       });
-
-      // Menambahkan elemen button ke dalam popup
-      popupWindow.document.body.appendChild(button);
     } else {
       console.error('Invalid response structure:', paymentLink);
     }
@@ -772,6 +748,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
     console.error('Error fetching data:', error);
   }
 }
+
 
 
 </script>
