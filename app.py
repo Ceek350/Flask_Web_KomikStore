@@ -10,7 +10,7 @@ from hashlib import sha256
 from passlib.hash import sha256_crypt
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from flask_cors import CORS
+
 
 
 CLIENT_KEY = 'SB-Mid-client-Ay1WobiGTcJNoVKs'
@@ -18,7 +18,8 @@ CLIENT_KEY = 'SB-Mid-client-Ay1WobiGTcJNoVKs'
 
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
-CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:5000"}})
+
+
 
 UPLOAD_FOLDER = 'static/img'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -45,6 +46,13 @@ def initialize_database():
     return mydb
 
 mydb = initialize_database()
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5000'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    response.headers['Access-Control-Allow-Methods'] = 'GET'
+    return response
 
 @app.route('/')
 def anu():
