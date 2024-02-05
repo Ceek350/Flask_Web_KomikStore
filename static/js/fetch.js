@@ -123,7 +123,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
   function redirectToPayment(paymentUrl) {
   // Redirect to the payment URL
-  window.location.href = paymentUrl;
+  window.open = paymentUrl;
   }
 
   //pembayaran
@@ -211,7 +211,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
       // Menambahkan elemen button ke dalam elemen dengan ID 'btnlink'
       btnlink.appendChild(button);
-      window.location.href = paymentLink.payment_url;
+      window.open = paymentLink.payment_url;
     } else {
       console.error('Invalid response structure:', paymentLink);
     }
