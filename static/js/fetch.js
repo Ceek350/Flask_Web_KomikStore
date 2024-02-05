@@ -146,78 +146,77 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
 
   async function generateAndRedirect() {
-  alert('Mengarahkan ke link pembayaran');
-  const secret = 'SB-Mid-server-1kIui_HMHRTk9rRgzDZP4MIQ';
-  const encodedSecret = btoa(encodeURIComponent(secret));
-  const basicAuth = `Basic ${encodedSecret}`;
-  console.log(basicAuth);
-
-  // Example of a valid 'data' object
-  let data = {
-  "transaction_details": {
-    "order_id": randomId,
-    "gross_amount": total
-  },
-  "item_details": cart.map(item => ({
-    "id": item.name,
-    "name": item.name,
-    "price": item.price,
-    "quantity": 1
-  })),
-  "shipping_address": {
-    "first_name": savedAddress.name,
-    "phone": savedAddress.phone,
-    "address": savedAddress.address,
-    "city": savedAddress.city,
-    "postal_code": savedAddress.postalCode
+    alert('Mengarahkan ke halaman pembayaran');
+    const clientKey = 'SB-Mid-client-Ay1WobiGTcJNoVKs';
+    const orderId = generateRandomId(5);
+  
+    let snap = Snap({
+      // Replace 'YourClientKey' with your actual client key
+      clientKey: clientKey,
+      // Replace with your callback function
+      callback: function (response) {
+        if (response.transaction_status === 'capture') {
+          alert('Pembayaran sukses! ID Pesanan: ' + response.order_id);
+        } else if (response.transaction_status === 'settlement') {
+          alert('Pembayaran berhasil disetujui!');
+        } else if (response.transaction_status === 'pending') {
+          alert('Pembayaran sedang diproses. ID Pesanan: ' + response.order_id);
+        } else if (response.transaction_status === 'deny') {
+          alert('Pembayaran ditolak.');
+        }
+      }
+    });
+  
+    const transactionDetails = {
+      order_id: orderId,
+      gross_amount: total,
+    };
+  
+    const itemDetails = cart.map(item => ({
+      id: item.name,
+      price: item.price,
+      quantity: 1,
+      name: item.name,
+    }));
+  
+    const customerDetails = {
+      first_name: savedAddress.name,
+      phone: savedAddress.phone,
+      address: savedAddress.address,
+      city: savedAddress.city,
+      postal_code: savedAddress.postalCode,
+    };
+  
+    const creditCardOptions = {
+      secure: true,
+    };
+  
+    const userData = {
+      transaction_details: transactionDetails,
+      item_details: itemDetails,
+      customer_details: customerDetails,
+      credit_card: creditCardOptions,
+    };
+  
+    try {
+      const response = await fetch('https://api.sandbox.midtrans.com/v2/charge', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + btoa(clientKey + ':'),
+        },
+        body: JSON.stringify(userData),
+      });
+  
+      const responseData = await response.json();
+  
+      if (responseData.redirect_url) {
+        // Redirect ke halaman pembayaran Snap Midtrans
+        snap.redirect(responseData.redirect_url);
+      } else {
+        console.error('Invalid response structure:', responseData);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
   }
-
-
-  try {
-    const response = await fetch(`https://api.sandbox.midtrans.com/v1/payment-links`, {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": basicAuth
-      },
-      body: JSON.stringify(data)
-    });
-
-    const paymentLink = await response.json();
-    console.log(paymentLink);
-    const paymentLinkContainer = document.getElementById('link');
-    paymentLinkContainer.textContent = `Link pembayaran: ${paymentLink.payment_url}`;
-    
-    if (paymentLink && paymentLink.payment_url) {
-      // Redirect pengguna ke payment_url
-      const paymentLinkContainer = document.getElementById('link');
-
-      // Set the payment link text
-      paymentLinkContainer.textContent = `Link pembayaran: ${paymentLink.payment_url}`;
-
-      const btnlink = document.getElementById('btnlink');
-      const button = document.createElement('button');
-  
-      // Menambahkan atribut dan gaya pada elemen button
-      button.textContent = 'Menuju ke pembayaran';
-      button.classList.add('btn', 'btn-primary');  // Ganti dengan warna latar belakang yang diinginkan
-      button.style.color = 'white';          // Ganti dengan warna teks yang diinginkan
-      
-      // Menambahkan event listener untuk menangani klik tombol
-      button.addEventListener('click', function() {
-        // Logika atau aksi yang ingin dilakukan ketika tombol diklik
-        redirectToPayment(paymentLink.payment_url);
-      });
-
-      // Menambahkan elemen button ke dalam elemen dengan ID 'btnlink'
-      btnlink.appendChild(button);
-      window.open = paymentLink.payment_url;
-    } else {
-      console.error('Invalid response structure:', paymentLink);
-    }
-
-  } catch (error) {
-      console.error('Error fetching data:', error);
-    }}
