@@ -540,7 +540,7 @@ crossorigin="anonymous"></script>
 <script>
       const comicsContainer = document.getElementById('comics-container');
 
-fetch('http://localhost:5000/api/product')
+fetch('/api/product')
   .then(response => response.json())
   .then(data => {
     data.data.forEach(product => { // Sesuaikan dengan struktur data yang benar
