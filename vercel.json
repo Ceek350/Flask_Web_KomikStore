@@ -1,13 +1,19 @@
 {
     "builds": [
-        {
-            "src": "/app.py",
-            "use": "@vercel/python"
-        }
+      {
+        "src": "/app.py",
+        "use": "@vercel/python"
+      }
     ],
-"routes": [
-    {
+    "routes": [
+      {
         "src": "/(.*)",
         "dest": "/app.py"
-    }]
+      }
+    ],
+    "build": {
+      "dependencies": ["python3.9-dev", "libmysqlclient-dev"],
+      "installCommand": "pip3.9 install --disable-pip-version-check --no-binary :all: --target . --upgrade -r /vercel/path0/requirements.txt"
+    }
 }
+  
