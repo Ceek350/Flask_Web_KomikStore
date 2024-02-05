@@ -18,7 +18,7 @@ CLIENT_KEY = 'SB-Mid-client-Ay1WobiGTcJNoVKs'
 
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
-CORS(app, resources={r"/api/*": {"origins": "http://hafidzanu.my.id"}})
+CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:5000"}})
 
 UPLOAD_FOLDER = 'static/img'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
