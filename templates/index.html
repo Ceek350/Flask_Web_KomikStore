@@ -24,7 +24,6 @@
 
     gtag('config', 'G-N6J710P1NY');
   </script>
-  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-Ay1WobiGTcJNoVKs"></script>
     
 </head>
 
@@ -358,9 +357,8 @@
                     <div class="total" style="color: white;">
                         Total: Rp.<span id="cart-total" >0</span>
                     </div>
-                    <button type="button" class="btn-beli btn btn-danger px-2" id="checkoutBtn">Checkcout</button>
+                    <button type="button" class="btn-beli btn btn-danger px-2" id="checkoutBtn" onclick="generateAndRedirect(productName, total)">Checkcout</button>
                     <div class="link" id="link" style="color: white; text-transform: lowercase; font-size: 15px;">
-                      {{paymentLink}}
                     </div>
                     <div class="btnlink" id="btnlink" style="color: white; text-transform: lowercase; font-size: 15px;">
                     </div>
@@ -555,9 +553,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-Ay1WobiGTcJNoVKs"></script>
 <script>
-  const comicsContainer = document.getElementById('comics-container');
+      const comicsContainer = document.getElementById('comics-container');
 
 fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   .then(response => response.json())
@@ -682,7 +679,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
   function redirectToPayment(paymentUrl) {
   // Redirect to the payment URL
-  window.open = paymentUrl;
+  window.location.href = paymentUrl;
   }
 
   //pembayaran
@@ -704,86 +701,79 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
 
 
-  async function generateAndShowPopup() {
-    alert('Menampilkan jendela pembayaran');
+  async function generateAndRedirect() {
+  alert('Mengarahkan ke link pembayaran');
+  const secret = 'SB-Mid-server-1kIui_HMHRTk9rRgzDZP4MIQ';
+  const encodedSecret = btoa(encodeURIComponent(secret));
+  const basicAuth = `Basic ${encodedSecret}`;
+  console.log(basicAuth);
 
-    const clientKey = 'SB-Mid-client-Ay1WobiGTcJNoVKs';
-    const orderId = generateRandomId(5);
+  // Example of a valid 'data' object
+  let data = {
+    "transaction_details": {
+      "order_id": randomId,
+      "gross_amount": total
+    },
+    "item_details": cart.map(item => ({
+      "id": item.name,
+      "name": item.name,
+      "price": item.price,
+      "quantity": 1
+    })),
+    "shipping_address": {
+      "first_name": savedAddress.name,
+      "phone": savedAddress.phone,
+      "address": savedAddress.address,
+      "city": savedAddress.city,
+      "postal_code": savedAddress.postalCode
+    }
+  };
 
-    const snap = Snap({
-      clientKey: clientKey,
-      callback: function (response) {
-        if (response.transaction_status === 'capture') {
-          alert('Pembayaran sukses! ID Pesanan: ' + response.order_id);
-        } else if (response.transaction_status === 'settlement') {
-          alert('Pembayaran berhasil disetujui!');
-        } else if (response.transaction_status === 'pending') {
-          alert('Pembayaran sedang diproses. ID Pesanan: ' + response.order_id);
-        } else if (response.transaction_status === 'deny') {
-          alert('Pembayaran ditolak.');
-        }
-      }
+  try {
+    const response = await fetch(`https://api.sandbox.midtrans.com/v1/payment-links`, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": basicAuth
+      },
+      body: JSON.stringify(data)
     });
 
-    const transactionDetails = {
-      order_id: orderId,
-      gross_amount: total,
-    };
+    const paymentLink = await response.json();
+    console.log(paymentLink);
 
-    const itemDetails = cart.map(item => ({
-      id: item.name,
-      price: item.price,
-      quantity: 1,
-      name: item.name,
-    }));
+    if (paymentLink && paymentLink.payment_url) {
+      // Menampilkan link pembayaran di dalam popup
+      const popupWindow = window.open('', '_blank', 'width=600,height=400');
+      popupWindow.document.write(`<p>Link pembayaran: ${paymentLink.payment_url}</p>`);
 
-    const customerDetails = {
-      first_name: savedAddress.name,
-      phone: savedAddress.phone,
-      address: savedAddress.address,
-      city: savedAddress.city,
-      postal_code: savedAddress.postalCode,
-    };
+      const button = popupWindow.document.createElement('button');
 
-    const creditCardOptions = {
-      secure: true,
-    };
+      // Menambahkan atribut dan gaya pada elemen button
+      button.textContent = 'Menuju ke pembayaran';
+      button.classList.add('btn', 'btn-primary');  // Ganti dengan warna latar belakang yang diinginkan
+      button.style.color = 'white';          // Ganti dengan warna teks yang diinginkan
 
-    const userData = {
-      transaction_details: transactionDetails,
-      item_details: itemDetails,
-      customer_details: customerDetails,
-      credit_card: creditCardOptions,
-    };
-
-    try {
-      const response = await fetch('https://api.sandbox.midtrans.com/v2/charge', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Basic ' + btoa(clientKey + ':'),
-        },
-        body: JSON.stringify(userData),
+      // Menambahkan event listener untuk menangani klik tombol
+      button.addEventListener('click', function () {
+        // Logika atau aksi yang ingin dilakukan ketika tombol diklik
+        popupWindow.close(); // Menutup popup sebelum redirect (jika diperlukan)
+        redirectToPayment(paymentLink.payment_url);
       });
 
-      const responseData = await response.json();
-
-      if (responseData.token) {
-        // Menampilkan jendela popup pembayaran
-        snap.pay(responseData.token);
-      } else {
-        console.error('Invalid response structure:', responseData);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
+      // Menambahkan elemen button ke dalam popup
+      popupWindow.document.body.appendChild(button);
+    } else {
+      console.error('Invalid response structure:', paymentLink);
     }
-  }
 
-  // Mengaitkan fungsi generateAndShowPopup dengan tombol checkout
-  document.getElementById('checkoutBtn').onclick = function() {
-    generateAndShowPopup();
-  };
-  
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+
 </script>
 <script src="/static/js/search.js"></script>
 <script src="/static/js/alamat.js"></script>

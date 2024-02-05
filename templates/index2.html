@@ -542,9 +542,234 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 crossorigin="anonymous"></script>
-<script src="/static/js/fetch.js"></script>
-<script src="/static/js/search.js"></script>
-<script src="/static/js/alamat.js"></script>
-<script src="/static/js/ambil_alamat.js"></script>
+<script>
+      const comicsContainer = document.getElementById('comics-container');
+
+fetch('/api/product')
+  .then(response => response.json())
+  .then(data => {
+    data.data.forEach(product => { // Sesuaikan dengan struktur data yang benar
+      const cardDeck = document.createElement('div');
+      cardDeck.classList.add('col'); // Atur class Bootstrap untuk responsif
+
+      const card = document.createElement('div');
+      card.classList.add('card', 'dark-bg'); // Tambahkan kelas dark-bg untuk background gelap
+
+      const img = document.createElement('img');
+      img.classList.add('card-img-top');
+      img.src = "/static/img/" + product.image;
+      img.alt = product.title;
+
+      const cardBody = document.createElement('div');
+      cardBody.classList.add('card-body');
+
+      const title = document.createElement('h5');
+      title.classList.add('card-title');
+      title.textContent = product.title;
+
+      const desc = document.createElement('p');
+      desc.classList.add('card-text');
+      desc.textContent = product.description;
+
+      const price = document.createElement('h4');
+      price.classList.add('card-price');
+      price.textContent = "Rp. " + product.price;
+
+      const btn = document.createElement('button');
+      btn.classList.add('btn', 'btn-primary');
+      btn.textContent = 'Tambah ke Keranjang';
+      btn.onclick = function() {
+        addToCart(product.title, product.price); // Menggunakan judul komik dan harga yang sesuai
+      };
+
+      cardBody.appendChild(title);
+      cardBody.appendChild(desc);
+      cardBody.appendChild(price);
+      cardBody.appendChild(btn);
+
+      card.appendChild(img);
+      card.appendChild(cardBody);
+
+      cardDeck.appendChild(card);
+      comicsContainer.appendChild(cardDeck);
+    });
+  })
+  .catch(error => {
+    console.log('Error fetching data:', error);
+  });
+
+  //usercek
+
+
+  function profilbtn() {
+    var profil = document.getElementById('profilside')
+    profil.classList.add("active")
+  }
+  function closebtn() {
+    var profil = document.getElementById('profilside')
+    profil.classList.remove("active")
+  }
+
+  function toggleSidebar() {
+  var sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("active");
+  }
+  function checkout() {
+  // Proses checkout, misalnya redirect ke halaman pembayaran atau lakukan tindakan lain sesuai kebutuhan
+  alert('Terima kasih telah berbelanja! Silakan lanjut ke pembayaran.');
+  }
+
+  let cart = [];
+  let total = 0;
+  let email = "";
+  let selectedComic;
+  let productName;
+
+
+  function addToCart(productName, price) {
+  // Mengonversi harga menjadi angka jika diperlukan
+  const productPrice = parseFloat(price.replace(/[^0-9]/g, '')); // Menghilangkan karakter non-angka
+  // Add the product to the cart
+  cart.push({ name: productName, price: productPrice });
+
+  // Update the total price
+  total += productPrice;
+
+  // Update the cart view
+  updateCart();
+  alert('Berhasil ditambahkan, silahkan cek keranjang');
+  }
+
+  function updateCart() {
+  let cartItems = document.getElementById('cart-items');
+  let cartTotal = document.getElementById('cart-total');
+  cartItems.innerHTML = '';
+  cart.forEach(comic => {
+    let li = document.createElement('li');
+    li.textContent = `${comic.name} - ${formatNumber(comic.price)}`;
+    cartItems.appendChild(li);
+  });
+  cartTotal.textContent = `${formatNumber(total)}`;
+  }
+
+  function formatNumber(number) {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
+  }
+
+  function profil() {
+    let profil = document.getElementById('profil');
+    profil.innerHTML = '';
+    profil.textContent = `${msg}`;
+  }
+
+  //pembayaran
+  function generateRandomId(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomId = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomId += characters.charAt(randomIndex);
+  }
+
+  return randomId;
+  }
+
+  function redirectToPayment(paymentUrl) {
+  // Redirect to the payment URL
+  window.location.href = paymentUrl;
+  }
+
+  // Contoh penggunaan untuk membuat ID acak dengan panjang 8 karakter
+  const randomId = generateRandomId(5);
+  console.log(randomId);
+
+
+
+  // ...
+
+async function generateAndRedirect() {
+  alert('Membuat link pembayaran...');
+  
+  const secret = 'SB-Mid-server-1kIui_HMHRTk9rRgzDZP4MIQ';
+  const encodedSecret = btoa(encodeURIComponent(secret));
+  const basicAuth = `Basic ${encodedSecret}`;
+  console.log(basicAuth);
+
+  // Example of a valid 'data' object
+  let data = {
+    "transaction_details": {
+      "order_id": randomId,
+      "gross_amount": total
+    },
+    "item_details": cart.map(item => ({
+      "id": item.name,
+      "name": item.name,
+      "price": item.price,
+      "quantity": 1
+    })),
+    "shipping_address": {
+      "first_name": savedAddress.name,
+      "phone": savedAddress.phone,
+      "address": savedAddress.address,
+      "city": savedAddress.city,
+      "postal_code": savedAddress.postalCode
+    }
+  };
+
+  try {
+    const response = await fetch(`https://api.sandbox.midtrans.com/v1/payment-links`, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": basicAuth
+      },
+      body: JSON.stringify(data)
+    });
+
+    const paymentLink = await response.json();
+    console.log(paymentLink);
+    
+    if (paymentLink && paymentLink.payment_url) {
+      // Redirect pengguna ke payment_url
+      const paymentLinkContainer = document.getElementById('link');
+
+      // Set the payment link text
+      paymentLinkContainer.textContent = `Link pembayaran: ${paymentLink.payment_url}`;
+
+      const btnlink = document.getElementById('btnlink');
+      const button = document.createElement('button');
+  
+      // Menambahkan atribut dan gaya pada elemen button
+      button.textContent = 'Menuju ke pembayaran';
+      button.classList.add('btn', 'btn-primary');  // Ganti dengan warna latar belakang yang diinginkan
+      button.style.color = 'white';          // Ganti dengan warna teks yang diinginkan
+      
+      // Menambahkan event listener untuk menangani klik tombol
+      button.addEventListener('click', function() {
+        // Logika atau aksi yang ingin dilakukan ketika tombol diklik
+        redirectToPayment(paymentLink.payment_url);
+      });
+
+      // Menambahkan elemen button ke dalam elemen dengan ID 'btnlink'
+      btnlink.appendChild(button);
+      window.location.href = paymentLink.payment_url
+    } else {
+      console.error('Invalid response structure:', paymentLink);
+    }
+
+  } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+}
+
+
+
+
+</script>
+<!--<script src="static/js/search.js"></script>-->
+<script src="static/js/alamat.js"></script>
+<script src="static/js/ambil_alamat.js"></script>
 </body>
 </html>

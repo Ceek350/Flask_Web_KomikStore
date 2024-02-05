@@ -46,7 +46,7 @@ mydb = initialize_database()
 
 @app.after_request
 def add_cors_headers(response):
-    response.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5000'
+    response.headers['Access-Control-Allow-Origin'] = 'https://hafidzanu.my.id'
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
     response.headers['Access-Control-Allow-Methods'] = 'GET'
     return response
