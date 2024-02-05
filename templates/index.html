@@ -681,6 +681,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
 
   async function generateAndRedirect() {
+  alert('Mengarahkan ke link pembayaran')
   const secret = 'SB-Mid-server-1kIui_HMHRTk9rRgzDZP4MIQ';
   const encodedSecret = btoa(encodeURIComponent(secret));
   const basicAuth = `Basic ${encodedSecret}`;
