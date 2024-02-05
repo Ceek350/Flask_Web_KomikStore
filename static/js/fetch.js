@@ -212,6 +212,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
       if (responseData.token) {
         // Menampilkan jendela popup pembayaran
         snap.pay(responseData.token);
+        
       } else {
         console.error('Invalid response structure:', responseData);
       }
