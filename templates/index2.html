@@ -347,8 +347,9 @@
                         Total: <span id="cart-total" >0</span>
                     </div>
                     <button type="button" class="btn-beli btn btn-danger px-2" onclick="generateAndRedirect(productName, total)">Checkcout</button>
-                    <div class="link" style="color: white;">
-                      Link: <span id="linkuy" ></span>
+                    <div class="link" id="link" style="color: white; text-transform: lowercase; font-size: 15px;">
+                    </div>
+                    <div class="btnlink" id="btnlink" style="color: white; text-transform: lowercase; font-size: 15px;">
                     </div>
                   </div>
                 </div>
@@ -674,6 +675,11 @@ fetch('/api/product')
   return randomId;
   }
 
+  function redirectToPayment(paymentUrl) {
+  // Redirect to the payment URL
+  window.location.href = paymentUrl;
+  }
+
   // Contoh penggunaan untuk membuat ID acak dengan panjang 8 karakter
   const randomId = generateRandomId(5);
   console.log(randomId);
@@ -724,30 +730,40 @@ async function generateAndRedirect() {
 
     const paymentLink = await response.json();
     console.log(paymentLink);
-    const paymentLinkElement = document.getElementsByClassName('linkuy')
-    paymentLinkElement.innerHTML = `Link: ${paymentLink.payment_url}`;
-
+    
     if (paymentLink && paymentLink.payment_url) {
-      // Display the payment link dynamically
-      const paymentLinkElement = document.getElementById('payment-link');
-      paymentLinkElement.innerHTML = `<strong>Payment Link:</strong> ${paymentLink.payment_url}`;
-      document.getElementById('payment-link-container').style.display = 'block';
-      document.getElementById('payment-link-container').style.color = 'white'
+      // Redirect pengguna ke payment_url
+      const paymentLinkContainer = document.getElementById('link');
 
-      // Redirect the user to the payment URL
-      window.location.href = paymentLink.payment_url;
-      console.log('Redirected successfully');
+      // Set the payment link text
+      paymentLinkContainer.textContent = `Link pembayaran: ${paymentLink.payment_url}`;
+
+      const btnlink = document.getElementById('btnlink');
+      const button = document.createElement('button');
+  
+      // Menambahkan atribut dan gaya pada elemen button
+      button.textContent = 'Menuju ke pembayaran';
+      button.classList.add('btn', 'btn-primary');  // Ganti dengan warna latar belakang yang diinginkan
+      button.style.color = 'white';          // Ganti dengan warna teks yang diinginkan
+      
+      // Menambahkan event listener untuk menangani klik tombol
+      button.addEventListener('click', function() {
+        // Logika atau aksi yang ingin dilakukan ketika tombol diklik
+        redirectToPayment(paymentLink.payment_url);
+      });
+
+      // Menambahkan elemen button ke dalam elemen dengan ID 'btnlink'
+      btnlink.appendChild(button);
+      
+      
+      return false;
     } else {
       console.error('Invalid response structure:', paymentLink);
-      alert('Failed to generate payment link. Please try again.');
     }
 
-    // Additional processing or actions after the redirect
-    // ...
   } catch (error) {
-    console.error('Error fetching data:', error);
-    alert('An error occurred. Please try again later.');
-  }
+      console.error('Error fetching data:', error);
+    }
 }
 
 

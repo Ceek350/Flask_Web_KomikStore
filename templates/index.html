@@ -350,8 +350,9 @@
                         Total: Rp.<span id="cart-total" >0</span>
                     </div>
                     <button type="button" class="btn-beli btn btn-danger px-2" id="checkoutBtn" onclick="generateAndRedirect(productName, total)">Checkcout</button>
-                    <div class="link" style="color: white;">
-                      Link: <span id="linkuy" ></span>
+                    <div class="link" id="link" style="color: white; text-transform: lowercase; font-size: 15px;">
+                    </div>
+                    <div class="btnlink" id="btnlink" style="color: white; text-transform: lowercase; font-size: 15px;">
                     </div>
                   </div>
                 </div>
@@ -668,6 +669,11 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
     profil.textContent = `${msg}`;
   }
 
+  function redirectToPayment(paymentUrl) {
+  // Redirect to the payment URL
+  window.location.href = paymentUrl;
+  }
+
   //pembayaran
   function generateRandomId(length) {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -729,17 +735,37 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
     const paymentLink = await response.json();
     console.log(paymentLink);
-    const paymentLinkElement = document.getElementsByClassName('link')
-    paymentLinkElement.innerHTML = `Link: ${paymentLink.payment_url}`;
+    
     if (paymentLink && paymentLink.payment_url) {
       // Redirect pengguna ke payment_url
-      window.location.href = paymentLink.payment_url;
+      const paymentLinkContainer = document.getElementById('link');
+
+      // Set the payment link text
+      paymentLinkContainer.textContent = `Link pembayaran: ${paymentLink.payment_url}`;
+
+      const btnlink = document.getElementById('btnlink');
+      const button = document.createElement('button');
+  
+      // Menambahkan atribut dan gaya pada elemen button
+      button.textContent = 'Menuju ke pembayaran';
+      button.classList.add('btn', 'btn-primary');  // Ganti dengan warna latar belakang yang diinginkan
+      button.style.color = 'white';          // Ganti dengan warna teks yang diinginkan
+      
+      // Menambahkan event listener untuk menangani klik tombol
+      button.addEventListener('click', function() {
+        // Logika atau aksi yang ingin dilakukan ketika tombol diklik
+        redirectToPayment(paymentLink.payment_url);
+      });
+
+      // Menambahkan elemen button ke dalam elemen dengan ID 'btnlink'
+      btnlink.appendChild(button);
+      
+      
+      return false;
     } else {
       console.error('Invalid response structure:', paymentLink);
     }
 
-    // Proses redirect atau tindakan lain sesuai kebutuhan
-    // ...
   } catch (error) {
       console.error('Error fetching data:', error);
     }
