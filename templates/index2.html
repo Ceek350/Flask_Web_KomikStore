@@ -719,7 +719,7 @@ fetch('/api/product')
     console.log(paymentLink);
     if (paymentLink && paymentLink.payment_url) {
       // Redirect pengguna ke payment_url
-      window.location.href = paymentLink.payment_url;
+      window.location.replace = paymentLink.payment_url;
     } else {
       console.error('Invalid response structure:', paymentLink);
     }
