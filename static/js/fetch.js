@@ -145,15 +145,14 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
 
 
-  async function generateAndRedirect() {
-    alert('Mengarahkan ke halaman pembayaran');
-    const clientKey = 'SB-Mid-client-Ay1WobiGTcJNoVKs';
+  async function generateAndShowPopup() {
+    alert('Menampilkan jendela pembayaran');
+  
+    const clientKey = 'SB-Mid-client-YourClientKey';
     const orderId = generateRandomId(5);
   
-    let snap = Snap({
-      // Replace 'YourClientKey' with your actual client key
+    const snap = Snap({
       clientKey: clientKey,
-      // Replace with your callback function
       callback: function (response) {
         if (response.transaction_status === 'capture') {
           alert('Pembayaran sukses! ID Pesanan: ' + response.order_id);
@@ -210,9 +209,9 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   
       const responseData = await response.json();
   
-      if (responseData.redirect_url) {
-        // Redirect ke halaman pembayaran Snap Midtrans
-        snap.redirect(responseData.redirect_url);
+      if (responseData.token) {
+        // Menampilkan jendela popup pembayaran
+        snap.pay(responseData.token);
       } else {
         console.error('Invalid response structure:', responseData);
       }
@@ -220,3 +219,4 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
       console.error('Error fetching data:', error);
     }
   }
+  
