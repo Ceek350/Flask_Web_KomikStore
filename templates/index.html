@@ -200,6 +200,10 @@
   border-radius: 10px;
 }
 
+#checkoutBtn {
+  width: 200px;
+}
+
 @media only screen and (min-width:300px) and (max-width:990px) {
   #krnjg {
     display: block;
@@ -345,7 +349,7 @@
                     <div class="total" style="color: white;">
                         Total: Rp.<span id="cart-total" >0</span>
                     </div>
-                    <button type="button" class="btn-beli btn btn-danger px-2" onclick="generateAndRedirect(productName, total)">Checkcout</button>
+                    <button type="button" class="btn-beli btn btn-danger px-2" id="checkoutBtn" onclick="generateAndRedirect(productName, total)">Checkcout</button>
                     <div class="link" style="color: white;">
                       Link: <span id="linkuy" ></span>
                     </div>
