@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="static/img/comic.png">
+    <title>Login</title>
+    <link
+      rel="stylesheet"
+      href="/static/css/login.css"
+    />
+  </head>
+  <body style="background-image: url(/static/img/bullseye-gradient.svg)">
+    <div class="container">
+      <div class="card">
+        <form method="post" action="/login_admin">
+          <h1>Login</h1>
+          <input type="text" id="email" name="email" placeholder="email">
+          <input type="password" id="password" name="password" placeholder="Password">    
+          <button class="button" type="submit">Login Admin</button>
+          <div class="msg">{msg}</div>
+          <p><input class="check" type="checkbox" name="remember">Remember me<a class="forget" href="#">Forgot account?</a></p>
+          <h5>create account?<a href="/register"> Create</a></h5>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -343,7 +343,7 @@
                         <!-- Isi Keranjang akan ditampilkan di sini -->
                     </ul>
                     <div class="total" style="color: white;">
-                        Total: Rp.<span id="cart-total" >0</span>
+                        Total: <span id="cart-total" >0</span>
                     </div>
                     <button type="button" class="btn-beli btn btn-danger px-2" onclick="generateAndRedirect(productName, total)">Checkcout</button>
                   </div>
@@ -540,10 +540,10 @@ crossorigin="anonymous"></script>
 <script>
       const comicsContainer = document.getElementById('comics-container');
 
-fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
+fetch('http://localhost:5000/api/product')
   .then(response => response.json())
   .then(data => {
-    data.data.forEach(comic => { // Sesuaikan dengan struktur data yang benar
+    data.data.forEach(product => { // Sesuaikan dengan struktur data yang benar
       const cardDeck = document.createElement('div');
       cardDeck.classList.add('col'); // Atur class Bootstrap untuk responsif
 
@@ -552,29 +552,34 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
       const img = document.createElement('img');
       img.classList.add('card-img-top');
-      img.src = comic.image;
-      img.alt = comic.title;
+      img.src = "/static/img/" + product.image;
+      img.alt = product.title;
 
       const cardBody = document.createElement('div');
       cardBody.classList.add('card-body');
 
       const title = document.createElement('h5');
       title.classList.add('card-title');
-      title.textContent = comic.title;
+      title.textContent = product.title;
 
       const desc = document.createElement('p');
       desc.classList.add('card-text');
-      desc.textContent = comic.desc;
+      desc.textContent = product.description;
+
+      const price = document.createElement('h4');
+      price.classList.add('card-price');
+      price.textContent = "Rp. " + product.price;
 
       const btn = document.createElement('button');
       btn.classList.add('btn', 'btn-primary');
       btn.textContent = 'Tambah ke Keranjang';
       btn.onclick = function() {
-        addToCart(comic.title, 75000); // Menggunakan judul komik dan harga yang sesuai
+        addToCart(product.title, product.price); // Menggunakan judul komik dan harga yang sesuai
       };
 
       cardBody.appendChild(title);
       cardBody.appendChild(desc);
+      cardBody.appendChild(price);
       cardBody.appendChild(btn);
 
       card.appendChild(img);
@@ -612,48 +617,39 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   let cart = [];
   let total = 0;
   let email = "";
-  let price = 0;
   let selectedComic;
   let productName;
 
 
   function addToCart(productName, price) {
-    selectedComic = productName;
+  // Mengonversi harga menjadi angka jika diperlukan
+  const productPrice = parseFloat(price.replace(/[^0-9]/g, '')); // Menghilangkan karakter non-angka
+  // Add the product to the cart
+  cart.push({ name: productName, price: productPrice });
 
-    // Determine the price based on the product name
-    if (productName === 'Jujutsu Kaisen') {
-      price = 60000;
-    } else if (productName === 'Judul 2') {
-      price = 80000;
-    } else {
-      price = 70000;
-    }
+  // Update the total price
+  total += productPrice;
 
-    // Add the product to the cart
-    cart.push({ name: productName, price: price });
-
-    // Update the total price
-    console.log(price)
-    total += price;
-    console.log("total: ",total)
-
-    // Update the cart view
-    updateCart();
-    alert('berhasil ditambahkan, silahkan cek keranjang');
+  // Update the cart view
+  updateCart();
+  alert('Berhasil ditambahkan, silahkan cek keranjang');
   }
 
-  
   function updateCart() {
-    let cartItems = document.getElementById('cart-items');
-    let cartTotal = document.getElementById('cart-total');
-    cartItems.innerHTML = '';
-    cart.forEach(comic => {
-      let li = document.createElement('li');
-      li.textContent = `${comic.name} - Rp.${comic.price}`;
-      cartItems.appendChild(li);
-    });
-    cartTotal.textContent = total;
-    }
+  let cartItems = document.getElementById('cart-items');
+  let cartTotal = document.getElementById('cart-total');
+  cartItems.innerHTML = '';
+  cart.forEach(comic => {
+    let li = document.createElement('li');
+    li.textContent = `${comic.name} - ${formatNumber(comic.price)}`;
+    cartItems.appendChild(li);
+  });
+  cartTotal.textContent = `${formatNumber(total)}`;
+  }
+
+  function formatNumber(number) {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
+  }
 
   function profil() {
     let profil = document.getElementById('profil');
@@ -737,7 +733,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
 
 </script>
-<script src="static/js/search.js"></script>
+<!--<script src="static/js/search.js"></script>-->
 <script src="static/js/alamat.js"></script>
 <script src="static/js/ambil_alamat.js"></script>
 </body>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menampilkan Data dari API Flask</title>
+    <style>
+        #output td {
+            border: black;
+            border-style: solid;
+            padding: 15px;
+        }
+
+        #output tr a {
+            text-decoration: none;
+            margin-right: 5px; /* Add some spacing between Edit and Delete links */
+        }
+
+        /* Responsive styling */
+        @media (max-width:499px) {
+            th {
+                display: flex;
+                flex-direction: row;
+            }
+        }
+        @media (max-width: 768px) {
+            #output td {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            #output th {
+                text-align: left;
+            }
+
+            #output td:before {
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 id="table">Product</h1>
+    <p>Note: Jika api tidak menampilkan apa-apa silahkan restart/redeploy vercel</p>
+    <table>
+        <thead>
+            <th id="th">ID</th>
+            <th id="th">Judul</th>
+            <th id="th">Gambar</th>
+            <th id="th">Harga</th>
+            <th id="th">Deskripsi</th>
+            <th id="th">Aksi</th>
+        </thead>
+        <tbody id="output">
+            <!-- Tempat data akan ditampilkan -->
+        </tbody>
+    </table>
+    <div>
+        <h1>tambah data</h1>
+        <a href="/tambah" style="text-decoration: none; color: blue;">+ tambah</a>
+    </div>
+</body>
+</html>

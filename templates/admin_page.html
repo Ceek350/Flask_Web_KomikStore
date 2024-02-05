@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<style>
+    
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+
+    .body {
+    height: 100dvh;
+    }
+   #nav-atas {
+    background-color: #273142;
+    color: white;
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+    margin-left: -13px;
+    margin-right: -13px;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: large;
+   }
+
+   #nav-atas h1,p {
+    margin-right: 60px;
+   }
+
+   #sidenav {
+    background-color: #273142;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+
+   #content-form {
+    margin-top: 50px;
+    color: white;
+    text-align: center;
+   }
+
+   #content-form form {
+    padding: 20px;
+    margin-left: -100px;
+   }
+
+   #uploadButton {
+    margin-top: 20px;
+    padding: 13px;
+   }
+
+   #uploadForm {
+    font-size: medium;
+   }
+
+   #menu span{
+    color: white;
+   }
+
+   #menu li {
+    padding: 20px;
+   }
+
+   .nav-link.active {
+    width: 180px;
+   }
+
+   #output td {
+        border: white;
+        border-style: solid;
+        padding: 15px;
+    }
+
+    #output tr a {
+        text-decoration: none;
+        margin-right: 5px; /* Add some spacing between Edit and Delete links */
+    }
+
+    @media only screen and (min-width: 300px) and (max-width: 399px) {
+    #sidenav {
+        max-width: 100px;
+    }
+    #menu {
+        display: flex !important;
+        margin-top: 100px;
+        max-width: 50px;
+        margin-left: -20px;
+    }
+
+    #menu li {
+        max-width: 50px;
+        margin-left: -20px;
+    }
+
+    .nav-link.active {
+        max-width: 50px;
+    }
+
+    #content-form form {
+        margin-left: 10px; /* Atur margin agar sesuai pada layar kecil */
+    }
+
+    #nav-atas h1 {
+        margin-left: -60px;
+        margin-right: 100px;
+        display: block;
+    }
+
+    .isi {margin-left: -10px;}
+
+    .SilahkanLoginKeGoogleAnalyticAndaKlikDisini{
+        margin-left: -30px;
+    }
+
+    .SilahkanLoginKeDashboardMidtransAndaKlikDisini{
+        margin-left: -20px;
+    }
+    }
+
+    
+
+   @media only screen and (min-width: 400px) and (max-width: 720px) {
+    #sidenav {
+        display: flex !important; /* Gunakan !important untuk memastikan display tetap flex */
+    }
+
+    #content-form form {
+        margin-left: 0; /* Atur margin agar sesuai pada layar kecil */
+    }
+
+    #uploadButton {
+        margin-top: 20px;
+        padding: 13px;
+    }
+
+    .nav-link.active {
+        width: auto; /* Sesuaikan lebar dengan konten pada layar kecil */
+        display: block;
+    }
+
+    #menu li {
+        padding: 10px; /* Sesuaikan padding untuk tampilan yang lebih baik pada layar kecil */
+    }
+    }
+
+    #menu {
+        margin-top: 50px;
+    }
+</style>
+<body>
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" id="sidenav">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <h1 class="fs-10 d-none d-sm-inline" style="color: #4880FF; margin-top: 20px; margin-left: 60px;" id="judul">Admin Page</h1>
+                </a>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li>
+                        <button class="nav-link active" id="dashboard" onclick="loadDashboardContent" >
+                            <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span> </button>
+                    </li>
+                    <li>
+                        <button id="product" class="nav-link" onclick="loadProductContent">
+                            <i class="fs-4 bi bi-box-fill"></i> <span class="ms-1 d-none d-sm-inline">Products</span></button>
+                    </li>
+                    <li>
+                        <button id="invoice" class="nav-link" onclick="loadInvoiceContent">
+                            <i class="fs-4 bi bi-receipt-cutoff"></i> <span class="ms-1 d-none d-sm-inline">Invoice</span></button>
+                    </li>
+                    <li>
+                        <button class="nav-link" id="edit_page" onclick="loadEditContent" >
+                            <i class="fs-4 bi bi-file-earmark-code"></i> <span class="ms-1 d-none d-sm-inline">Edit Page</span> </button>
+                    </li>
+                    <li>
+                        <a href="/logout_admin" class="nav-link ">
+                            <i class="fs-4 bi bi-box-arrow-left"></i> <span class="ms-1 d-none d-sm-inline">Logout</span> </a>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+        </div>
+        <div class="col bg-dark" id="content-container">
+            <div class="col" id="nav-atas"><h1>admin page</h1><br><p style="font-size: small;">
+                {% if user %}
+                <h1 style="font-size: 16px; text-transform: none;">Yo! {{ user.email }}</h1>
+                <!-- Tambahkan elemen HTML lainnya yang sesuai dengan data pengguna yang ingin ditampilkan -->
+                <a href="/logout_admin">Logout</a>
+                {% endif %}</p></div>
+            <div class="col py-3 " id="content">
+                <!--Content-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+function loadDashboardContent() {
+    // Hapus kelas 'active' dari semua elemen dengan kelas 'nav-link'
+    var navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => link.classList.remove('active'));
+
+    // Tambahkan kelas 'active' pada tombol dengan id 'dashboard'
+    document.getElementById('dashboard').classList.add('active');
+
+    var contentContainer = document.getElementById('content-container');
+    contentContainer.classList.add('col', 'bg-dark');
+
+    // Ambil konten dari '/edit_page' dan masukkan ke dalam div dengan id 'content'
+    fetch('/dashboard') // Ganti path dengan lokasi file edit_page.html di proyek Anda
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('content').innerHTML = html;
+        })
+        .catch(error => console.error('Error loading Dashboard Page content:', error));
+}
+
+// Tambahkan event listener untuk mengaktifkan fungsi loadDashboardContent saat tombol diklik
+document.getElementById('dashboard').addEventListener('click', loadDashboardContent);
+window.onload = loadDashboardContent;
+
+
+function loadProductContent() {
+    // Hapus kelas 'active' dari semua elemen dengan kelas 'nav-link'
+    var navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => link.classList.remove('active'));
+
+    // Tambahkan kelas 'active' pada tombol dengan id 'dashboard'
+    document.getElementById('product').classList.add('active');
+
+    // Update background color of #content-container and #content to white
+    var contentContainer = document.getElementById('content-container');
+    contentContainer.classList.remove('col', 'bg-dark');
+
+    // Ambil konten dari '/crud' dan masukkan ke dalam div dengan id 'content'
+    fetch('/product') // Ganti path dengan lokasi file edit_page.html di proyek Anda
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('content').innerHTML = html;
+        })
+        .catch(error => console.error('Error loading Edit Page content:', error));
+
+    fetch('/api/product', {
+    headers: {
+        apiKey: 'abc123'
+    }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const tableBody = document.getElementById('output');
+        while (tableBody.firstChild) {
+            tableBody.removeChild(tableBody.firstChild);
+        }
+        data.data.forEach(product => {
+            const{id, title, image, price, description} = product;
+            const row = tableBody.insertRow();
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+            const cell4 = row.insertCell(3);
+            const cell5 = row.insertCell(4);
+            const cell6 = row.insertCell(5);
+            cell1.textContent = id;
+            cell2.textContent = title;
+            cell4.textContent = price;
+            cell5.textContent = description;
+            
+            const edit = document.createElement('a');
+            edit.textContent = 'Edit';
+            edit.href = `/editdb/${id}`;  // Pass the user ID to the edit route
+            const l = document.createElement('p');
+            l.textContent = '|';
+            const hapus = document.createElement('a');
+            hapus.textContent = 'Hapus';
+            hapus.href = `/deletedb/${id}`;  // Pass the user ID to the delete route
+
+            const img = document.createElement('img');
+            img.src = "/static/img/" + image;
+            img.style.width = '100%';
+            img.style.maxWidth = '200px';
+            img.style.maxHeight = '200px';
+
+            cell3.appendChild(img);
+            cell6.appendChild(edit);
+            cell6.appendChild(l);
+            cell6.appendChild(hapus);
+        });
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Tambahkan event listener untuk mengaktifkan fungsi loadProductContent saat tombol diklik
+document.getElementById('product').addEventListener('click', loadProductContent);
+
+function loadInvoiceContent() {
+    // Hapus kelas 'active' dari semua elemen dengan kelas 'nav-link'
+    var navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => link.classList.remove('active'));
+
+    // Tambahkan kelas 'active' pada tombol dengan id 'dashboard'
+    document.getElementById('invoice').classList.add('active');
+
+    var contentContainer = document.getElementById('content-container');
+    contentContainer.classList.add('col', 'bg-dark');
+
+    // Ambil konten dari '/edit_page' dan masukkan ke dalam div dengan id 'content'
+    fetch('/invoice') // Ganti path dengan lokasi file edit_page.html di proyek Anda
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('content').innerHTML = html;
+        })
+        .catch(error => console.error('Error loading Edit Page content:', error));
+}
+
+// Tambahkan event listener untuk mengaktifkan fungsi loadDashboardContent saat tombol diklik
+document.getElementById('invoice').addEventListener('click', loadInvoiceContent);
+
+function loadEditContent() {
+    // Hapus kelas 'active' dari semua elemen dengan kelas 'nav-link'
+    var navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => link.classList.remove('active'));
+
+    // Tambahkan kelas 'active' pada tombol dengan id 'dashboard'
+    document.getElementById('edit_page').classList.add('active');
+
+    var contentContainer = document.getElementById('content-container');
+    contentContainer.classList.add('col', 'bg-dark');
+
+    // Ambil konten dari '/edit_page' dan masukkan ke dalam div dengan id 'content'
+    fetch('/edit_page') // Ganti path dengan lokasi file edit_page.html di proyek Anda
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('content').innerHTML = html;
+        })
+        .catch(error => console.error('Error loading Edit Page content:', error));
+}
+
+// Tambahkan event listener untuk mengaktifkan fungsi loadDashboardContent saat tombol diklik
+document.getElementById('edit_page').addEventListener('click', loadEditContent);
+</script>
+    
+    
+<script>
+    function uploadImages() {
+    // Ambil semua formulir dengan id "uploadForm"
+    var forms = document.querySelectorAll('#uploadForm');
+
+    // Iterasi melalui formulir dan kirim masing-masing
+    forms.forEach(function(form) {
+        form.submit();
+        });
+    }
+</script>
+</body>
+</html>
