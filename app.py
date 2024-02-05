@@ -12,14 +12,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
 
-
 CLIENT_KEY = 'SB-Mid-client-Ay1WobiGTcJNoVKs'
 
 
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
-
-
 
 UPLOAD_FOLDER = 'static/img'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
