@@ -12,7 +12,7 @@
       }
     ],
     "build": {
-      "dependencies": ["python3.9-dev", "libmysqlclient-dev"],
+        "dependencies": ["python3.9-dev", "libmysqlclient-dev", "flask_cors==3.0.10"],
       "installCommand": "pip3.9 install --disable-pip-version-check --no-binary :all: --target . --upgrade -r /vercel/path0/requirements.txt"
     }
 }
