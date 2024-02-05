@@ -187,6 +187,8 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
     const paymentLink = await response.json();
     console.log(paymentLink);
+    const paymentLinkContainer = document.getElementById('link');
+    paymentLinkContainer.textContent = `Link pembayaran: ${paymentLink.payment_url}`;
     
     if (paymentLink && paymentLink.payment_url) {
       // Redirect pengguna ke payment_url
