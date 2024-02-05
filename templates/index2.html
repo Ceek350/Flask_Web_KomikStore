@@ -677,6 +677,7 @@ fetch('/api/product')
 
 
   async function generateAndRedirect() {
+    alert('mengarahkan ke link pembayaran');
   const secret = 'SB-Mid-server-1kIui_HMHRTk9rRgzDZP4MIQ';
   const encodedSecret = btoa(encodeURIComponent(secret));
   const basicAuth = `Basic ${encodedSecret}`;
