@@ -754,9 +754,7 @@ async function generateAndRedirect() {
 
       // Menambahkan elemen button ke dalam elemen dengan ID 'btnlink'
       btnlink.appendChild(button);
-      
-      
-      return false;
+      window.location.href = paymentLink.payment_url;
     } else {
       console.error('Invalid response structure:', paymentLink);
     }
