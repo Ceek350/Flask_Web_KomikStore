@@ -732,26 +732,29 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   }
 
 
-  try {
-    const response = await fetch(`https://api.sandbox.midtrans.com/v1/payment-links`, {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": basicAuth
-      },
-      body: JSON.stringify(data)
-    });
-
-    const paymentLink = await response.json();
+  fetch(`https://api.sandbox.midtrans.com/v1/payment-links`, {
+  method: "POST",
+  headers: {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+    "Authorization": basicAuth
+  },
+  body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(paymentLink => {
     console.log(paymentLink);
-    
     if (paymentLink && paymentLink.payment_url) {
       // Redirect pengguna ke payment_url
       const paymentLinkContainer = document.getElementById('link');
       const paymentUrl = document.getElementById('tst');
       paymentUrl.setAttribute('href', paymentLink.payment_url);
-      paymentUrl.innerText = "menuju ke pembayaran"
+      paymentUrl.innerText = "menuju ke pembayaran";
 
 
       // Set the payment link text
@@ -759,12 +762,12 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
       const btnlink = document.getElementById('btnlink');
       const button = document.createElement('button');
-  
+
       // Menambahkan atribut dan gaya pada elemen button
       button.textContent = 'Menuju ke pembayaran';
       button.classList.add('btn', 'btn-primary');  // Ganti dengan warna latar belakang yang diinginkan
       button.style.color = 'white';          // Ganti dengan warna teks yang diinginkan
-      
+
       // Menambahkan event listener untuk menangani klik tombol
       button.addEventListener('click', function() {
         // Logika atau aksi yang ingin dilakukan ketika tombol diklik
@@ -777,11 +780,12 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
     } else {
       console.error('Invalid response structure:', paymentLink);
     }
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+}
 
-  } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  }
 
 
 </script>
