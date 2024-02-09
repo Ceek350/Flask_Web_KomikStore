@@ -323,7 +323,7 @@
             >Api Key</a>
             
             
-            <a class="nav-link d-flex justify-content-center" href="#">
+            <div class="nav-link d-flex justify-content-center">
               <div class="container">
                 <button class="toggle-btn" id="krnjg-nav" onclick="toggleSidebar()" style="font-size: 30px;">🛒</button>
                 <div class="sidebar" id="sidebar">
@@ -357,14 +357,16 @@
                     <div class="total" style="color: white;">
                         Total: Rp.<span id="cart-total" >0</span>
                     </div>
+                    <a href="" id="tst"></a>
                     <button type="button" class="btn-beli btn btn-danger px-2" id="checkoutBtn" onclick="generateAndRedirect(productName, total)">Checkcout</button>
-                    <div class="link" id="link" style="color: white; text-transform: lowercase; font-size: 15px;">
+                    <hr>
+                    <div class="nav-link d-flex" id="link" style="color: white; text-transform: lowercase; font-size: 15px;">
                     </div>
-                    <div class="btnlink" id="btnlink" style="color: white; text-transform: lowercase; font-size: 15px;">
+                    <div class="nav-link d-flex" id="btnlink" style="color: white; text-transform: lowercase; font-size: 15px;">
                     </div>
                   </div>
                 </div>
-            </a>
+              </div>
           </div>
         </div>
       </div>
@@ -747,6 +749,10 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
     if (paymentLink && paymentLink.payment_url) {
       // Redirect pengguna ke payment_url
       const paymentLinkContainer = document.getElementById('link');
+      const paymentUrl = document.getElementById('tst');
+      paymentUrl.setAttribute('href', paymentLink.payment_url);
+      paymentUrl.innerText = "menuju ke pembayaran"
+
 
       // Set the payment link text
       paymentLinkContainer.textContent = `Link pembayaran: ${paymentLink.payment_url}`;

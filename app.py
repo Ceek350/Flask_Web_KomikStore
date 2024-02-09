@@ -10,11 +10,18 @@ from hashlib import sha256
 from passlib.hash import sha256_crypt
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+from midtransclient import Snap
 
 
 CLIENT_KEY = 'SB-Mid-client-Ay1WobiGTcJNoVKs'
+SERVER_KEY = 'SB-Mid-server-1kIui_HMHRTk9rRgzDZP4MIQ'
+midtrans_api_base_url = 'https://app.sandbox.midtrans.com/snap/v1/transactions'
 
-
+snap = Snap(
+    is_production=False,
+    server_key=SERVER_KEY,
+    client_key=CLIENT_KEY
+)
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -46,7 +53,7 @@ mydb = initialize_database()
 
 @app.after_request
 def add_cors_headers(response):
-    response.headers['Access-Control-Allow-Origin'] = 'https://hafidzanu.my.id'
+    response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
     response.headers['Access-Control-Allow-Methods'] = 'GET'
     return response
@@ -86,6 +93,36 @@ def invoice():
 @app.route('/edit_page')
 def edit_page():
     return render_template('edit_page.html')
+
+@app.route('/snap_token', methods=['POST', 'GET'])
+def generate_snap_token():
+    # Mendapatkan data transaksi dari request
+    received_data = request.json
+    print(received_data)
+
+    # Mengisi detail transaksi (di sini dianggap request memiliki format JSON yang memuat detail transaksi)
+    # Mengambil data transaction_details dari received_data
+    transaction_details = received_data.get('transaction_details', {})
+    # Mengambil data item_details dari received_data
+    item_details = received_data.get('item_details', [])
+    # Mengambil data customer_details dari received_data
+    customer_details = received_data.get('customer_details', {})
+    # Membuat payload untuk pembayaran SNAP
+    snap_payload = {
+        'transaction_details': transaction_details,
+        'item_details': item_details,
+        'customer_details': customer_details
+    }
+
+    # Membuat SNAP token dengan menggunakan Midtrans Python library
+    snap_response = snap.create_transaction(snap_payload)
+    snap_token = snap_response['token']
+    print('transaction_token:')
+    print(snap_token)
+    transaction_redirect_url = snap_response['redirect_url']
+    print('transaction_redirect_url:')
+    print(transaction_redirect_url)
+    return jsonify(snap_token, transaction_redirect_url)
 
 #admin page
 
