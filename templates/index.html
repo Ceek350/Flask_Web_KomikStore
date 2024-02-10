@@ -638,17 +638,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   let price = 0;
   let selectedComic;
   let productName;
-  let itemDetails = [];
-  cart.forEach(item => {
-  let itemDetail = {
-    "id": item.name,
-    "name": item.name,
-    "price": item.price,
-    "quantity": 1
-  };
-  itemDetails.push(itemDetail);
-  });
-
+  
 
   function addToCart(productName, price) {
     selectedComic = productName;
@@ -724,6 +714,18 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   const encodedSecret = btoa(encodeURIComponent(secret));
   const basicAuth = `Basic ${encodedSecret}`;
   console.log(basicAuth);
+
+  let itemDetails = [];
+  cart.forEach(item => {
+  let itemDetail = {
+    "id": item.name,
+    "name": item.name,
+    "price": item.price,
+    "quantity": 1
+  };
+  itemDetails.push(itemDetail);
+  });
+
 
   // Example of a valid 'data' object
   let data = {
