@@ -638,6 +638,16 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   let price = 0;
   let selectedComic;
   let productName;
+  let itemDetails = [];
+  cart.forEach(item => {
+  let itemDetail = {
+    "id": item.name,
+    "name": item.name,
+    "price": item.price,
+    "quantity": 1
+  };
+  itemDetails.push(itemDetail);
+  });
 
 
   function addToCart(productName, price) {
@@ -721,12 +731,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
     "order_id": randomId,
     "gross_amount": total
   },
-  "item_details": cart.map(item => ({
-    "id": item.name,
-    "name": item.name,
-    "price": item.price,
-    "quantity": 1
-  })),
+  "item_details": itemDetails,
   "shipping_address": {
     "first_name": savedAddress.name,
     "phone": savedAddress.phone,
