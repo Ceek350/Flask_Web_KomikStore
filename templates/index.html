@@ -234,6 +234,11 @@
   #krnjg {
     display: none;
   }
+
+  #krnjg-nav {
+    right: 30px;
+    top: 80px;
+  }
   #gambar-1 {
     width: 95%;
     aspect-ratio: 16/9;
@@ -703,7 +708,7 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
 
 
-  function generateAndRedirect() {
+  async function generateAndRedirect() {
   alert('Mengarahkan ke link pembayaran');
   const secret = 'SB-Mid-server-1kIui_HMHRTk9rRgzDZP4MIQ';
   const encodedSecret = btoa(encodeURIComponent(secret));

@@ -96,33 +96,36 @@ def edit_page():
 
 @app.route('/snap_token', methods=['POST', 'GET'])
 def generate_snap_token():
-    # Mendapatkan data transaksi dari request
-    received_data = request.json
-    print(received_data)
+    if request.method == "POST":
+        # Mendapatkan data transaksi dari request
+        received_data = request.get_json()
+        print(received_data)
 
-    # Mengisi detail transaksi (di sini dianggap request memiliki format JSON yang memuat detail transaksi)
-    # Mengambil data transaction_details dari received_data
-    transaction_details = received_data.get('transaction_details', {})
-    # Mengambil data item_details dari received_data
-    item_details = received_data.get('item_details', [])
-    # Mengambil data customer_details dari received_data
-    customer_details = received_data.get('customer_details', {})
-    # Membuat payload untuk pembayaran SNAP
-    snap_payload = {
-        'transaction_details': transaction_details,
-        'item_details': item_details,
-        'customer_details': customer_details
-    }
+        # Mengisi detail transaksi (di sini dianggap request memiliki format JSON yang memuat detail transaksi)
+        # Mengambil data transaction_details dari received_data
+        transaction_details = received_data.get('transaction_details', {})
+        # Mengambil data item_details dari received_data
+        item_details = received_data.get('item_details', [])
+        # Mengambil data customer_details dari received_data
+        customer_details = received_data.get('customer_details', {})
+        # Membuat payload untuk pembayaran SNAP
+        snap_payload = {
+            'transaction_details': transaction_details,
+            'item_details': item_details,
+            'customer_details': customer_details
+        }
 
-    # Membuat SNAP token dengan menggunakan Midtrans Python library
-    snap_response = snap.create_transaction(snap_payload)
-    snap_token = snap_response['token']
-    print('transaction_token:')
-    print(snap_token)
-    transaction_redirect_url = snap_response['redirect_url']
-    print('transaction_redirect_url:')
-    print(transaction_redirect_url)
-    return jsonify(snap_token, transaction_redirect_url)
+        # Membuat SNAP token dengan menggunakan Midtrans Python library
+        snap_response = snap.create_transaction(snap_payload)
+        snap_token = snap_response['token']
+        print('transaction_token:')
+        print(snap_token)
+        transaction_redirect_url = snap_response['redirect_url']
+        print('transaction_redirect_url:')
+        print(transaction_redirect_url)
+        return jsonify(snap_token, transaction_redirect_url)
+    return render_template('index.html', snap_token=snap_token, transaction_redirect_url=transaction_redirect_url)
+
 
 #admin page
 
