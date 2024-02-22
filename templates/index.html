@@ -639,13 +639,21 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   function addToCart(productName, price) {
     selectedComic = productName;
 
-    // Determine the price based on the product name
+    // Ini untuk mengubah harga
+    // caranya isi productName === dengan judul komiknya lalu ubah harga sesuai keinginan
+    // copy kode dari else if untuk menambah harga / perjudul komik
     if (productName === 'Jujutsu Kaisen') {
+      //ini harga
       price = 60000;
     } else if (productName === 'Judul 2') {
+      //ini harga
       price = 80000;
-    } else {
-      price = 70000;
+    } else if (productName === 'Judul 3') {
+      //ini harga
+      price = 80000;
+    } else if (productName === 'Judul 4') {
+      //ini harga
+      price = 80000;
     }
 
     // Add the product to the cart
