@@ -420,6 +420,7 @@
     </div>
     <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
         <div class="row row-cols-1 row-cols-md-3 g-4" id="comics-container">
+          <img src="loading.png" alt="Loading..." id="loading" style="display: block;"/>
           <!-- Daftar kartu komik akan ditampilkan di sini -->
         </div>
     </div>
@@ -562,10 +563,12 @@ integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cD
 crossorigin="anonymous"></script>
 <script>
       const comicsContainer = document.getElementById('comics-container');
+      const loadingElement = document.getElementById('loading');
 
 fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
   .then(response => response.json())
   .then(data => {
+    loadingElement.style.display = 'none';
     data.data.forEach(comic => { // Sesuaikan dengan struktur data yang benar
       const cardDeck = document.createElement('div');
       cardDeck.classList.add('col'); // Atur class Bootstrap untuk responsif
@@ -671,12 +674,13 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
     let cartTotal = document.getElementById('cart-total');
     cartItems.innerHTML = '';
     cart.forEach(comic => {
-      let li = document.createElement('li');
-      li.textContent = `${comic.name} - Rp.${comic.price}`;
-      cartItems.appendChild(li);
+        let truncatedName = comic.name.length > 25 ? comic.name.slice(0, 25) + '...' : comic.name;
+        let li = document.createElement('li');
+        li.textContent = `${truncatedName} - Rp.${comic.price}`;
+        cartItems.appendChild(li);
     });
     cartTotal.textContent = total;
-    }
+  }
 
   function profil() {
     let profil = document.getElementById('profil');
@@ -717,14 +721,16 @@ fetch('https://komiku-api.fly.dev/api/comic/popular/page/1')
 
   let itemDetails = [];
   cart.forEach(item => {
+  let truncatedName = item.name.length > 20 ? item.name.slice(0, 20) + '...' : item.name;
   let itemDetail = {
-    "id": item.name,
-    "name": item.name,
+    "id": randomId + ':' + truncatedName,
+    "name": truncatedName,
     "price": item.price,
     "quantity": 1
   };
   itemDetails.push(itemDetail);
   });
+  console.log(itemDetails);
 
 
   // Example of a valid 'data' object
