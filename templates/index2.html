@@ -339,6 +339,7 @@
                       </form>
                     </div>
                     <h3 style="text-transform: none; font-size: 17px; margin-top: 10px; color: skyblue">Catatan: Setelah pesanan terkonfirmasi kami akan menghubungi anda melalui Wa atau Email. Terimakasih.</h3>
+                    <h3 style="text-transform: none; font-size: 17px; margin-top: 10px; color: skyblue">Catatan: Pastikan mengisi nama dan no wa saat melakukan pembayaran.</h3>
                     <h3 style="text-transform: none; font-size: 17px; margin-top: 10px;">Items:</h3>
                     <ul id="cart-items">
                         <!-- Isi Keranjang akan ditampilkan di sini -->
@@ -363,13 +364,13 @@
     <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="/static/img/banner_a.png" class="d-block" alt="Image 1">
+          <img src="/static/img/banner_a_toko.png" class="d-block" alt="Image 1">
         </div>
         <div class="carousel-item">
-          <img src="/static/img/banner_b.png" class="d-block" alt="Image 2">
+          <img src="/static/img/banner_b_toko.png" class="d-block" alt="Image 2">
         </div>
         <div class="carousel-item">
-          <img src="/static/img/banner_c.png" class="d-block" alt="Image 3">
+          <img src="/static/img/banner_c_toko.png" class="d-block" alt="Image 3">
         </div>
         <!-- Tambahkan lebih banyak item gambar sesuai kebutuhan -->
       </div>
@@ -393,8 +394,6 @@
       <h1 style="display: flex; justify-content: center; align-items: center;">KOMIK MANGA</h1>
       <p>API akan restart service setiap jam. Jika API tidak berjalan tolong hubungi kami.<a href="wa.me/6281271321152">WA Chat</a></p>
       <p>API list komik: https://komiku-api.fly.dev/api/comic/popular/page/1</p>
-      <p>API user_data: https://flask-web-komik-git-main-bruhteam1.vercel.app/api/data</p>
-      <p>API test: https://flask-web-komik-git-main-bruhteam1.vercel.app/test</p>
     </div>
     <div class="container mt-3 mb-3">
       <input type="text" id="searchInput" class="form-control" placeholder="Cari Judul">
@@ -462,11 +461,6 @@
                     />
                   </div>
                   <div class="footer-text">
-                    <p>
-                      Lorem ipsum dolor sit amet, consec tetur adipisicing elit,
-                      sed do eiusmod tempor incididuntut consec tetur
-                      adipisicing elit,Lorem ipsum dolor sit amet.
-                    </p>
                   </div>
                   <div class="footer-social-icon">
                     <span>Follow us</span>
@@ -529,8 +523,7 @@
               <div class="col-xl-6 col-lg-6 text-center text-lg-left">
                 <div class="copyright-text">
                   <p>
-                    Copyright &copy; 2023, All Right Reserved
-                    <a href="https://github.com/Ceek350/flask_web_komik">Hfdz</a>
+                    &copy; 2024, Raara
                   </p>
                 </div>
               </div>
@@ -707,14 +700,7 @@ async function generateAndRedirect() {
       "name": item.name,
       "price": item.price,
       "quantity": 1
-    })),
-    "shipping_address": {
-      "first_name": savedAddress.name,
-      "phone": savedAddress.phone,
-      "address": savedAddress.address,
-      "city": savedAddress.city,
-      "postal_code": savedAddress.postalCode
-    }
+    }))
   };
 
   try {

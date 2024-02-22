@@ -62,7 +62,7 @@ def add_cors_headers(response):
 def anu():
     return render_template('index.html', user=None)
 
-@app.route('/product_page')
+@app.route('/toko')
 def ind_anu():
     return render_template('index2.html', user=None)
 
@@ -205,6 +205,54 @@ def upload_banner_c():
 
     if image:
         filename = os.path.join(app.config['UPLOAD_FOLDER'], 'banner_c.png')
+        image.save(filename)
+        # Lakukan sesuatu dengan gambar yang diunggah (misalnya, menampilkan di halaman atau menyimpan nama file di database)
+        return render_template('edit_page')
+
+@app.route('/banner_a_toko', methods=['POST'])
+def upload_banner_a_toko():
+    if 'image' not in request.files:
+        return redirect(request.url)
+
+    image = request.files['image']
+
+    if image.filename == '':
+        return redirect(request.url)
+
+    if image:
+        filename = os.path.join(app.config['UPLOAD_FOLDER'], 'banner_a_toko.png')
+        image.save(filename)
+        # Lakukan sesuatu dengan gambar yang diunggah (misalnya, menampilkan di halaman atau menyimpan nama file di database)
+        return render_template('edit_page')
+
+@app.route('/banner_b_toko', methods=['POST'])
+def upload_banner_b_toko():
+    if 'image' not in request.files:
+        return redirect(request.url)
+
+    image = request.files['image']
+
+    if image.filename == '':
+        return redirect(request.url)
+
+    if image:
+        filename = os.path.join(app.config['UPLOAD_FOLDER'], 'banner_b_toko.png')
+        image.save(filename)
+        # Lakukan sesuatu dengan gambar yang diunggah (misalnya, menampilkan di halaman atau menyimpan nama file di database)
+        return render_template('edit_page')
+    
+@app.route('/banner_c_toko', methods=['POST'])
+def upload_banner_c_toko():
+    if 'image' not in request.files:
+        return redirect(request.url)
+
+    image = request.files['image']
+
+    if image.filename == '':
+        return redirect(request.url)
+
+    if image:
+        filename = os.path.join(app.config['UPLOAD_FOLDER'], 'banner_c_toko.png')
         image.save(filename)
         # Lakukan sesuatu dengan gambar yang diunggah (misalnya, menampilkan di halaman atau menyimpan nama file di database)
         return render_template('edit_page')
