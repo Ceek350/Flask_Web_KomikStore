@@ -347,7 +347,7 @@
                     <div class="total" style="color: white;">
                         Total: <span id="cart-total" >0</span>
                     </div>
-                    <button type="button" class="btn-beli btn btn-danger px-2" onclick="generateAndRedirect(productName, total)">Checkcout</button>
+                    <button type="button" class="btn-beli btn btn-danger px-2" onclick="checkout()">Checkcout</button>
                     <div class="link" id="link" style="color: white; text-transform: lowercase; font-size: 15px;">
                     </div>
                     <div class="btnlink" id="btnlink" style="color: white; text-transform: lowercase; font-size: 15px;">
@@ -676,79 +676,6 @@ fetch('/api/product')
   // Contoh penggunaan untuk membuat ID acak dengan panjang 8 karakter
   const randomId = generateRandomId(5);
   console.log(randomId);
-
-
-
-  // ...
-
-async function generateAndRedirect() {
-  alert('Membuat link pembayaran...');
-  
-  const secret = 'SB-Mid-server-1kIui_HMHRTk9rRgzDZP4MIQ';
-  const encodedSecret = btoa(encodeURIComponent(secret));
-  const basicAuth = `Basic ${encodedSecret}`;
-  console.log(basicAuth);
-
-  // Example of a valid 'data' object
-  let data = {
-    "transaction_details": {
-      "order_id": randomId,
-      "gross_amount": total
-    },
-    "item_details": cart.map(item => ({
-      "id": item.name,
-      "name": item.name,
-      "price": item.price,
-      "quantity": 1
-    }))
-  };
-
-  try {
-    const response = await fetch(`https://api.sandbox.midtrans.com/v1/payment-links`, {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": basicAuth
-      },
-      body: JSON.stringify(data)
-    });
-
-    const paymentLink = await response.json();
-    console.log(paymentLink);
-    
-    if (paymentLink && paymentLink.payment_url) {
-      // Redirect pengguna ke payment_url
-      const paymentLinkContainer = document.getElementById('link');
-
-      // Set the payment link text
-      paymentLinkContainer.textContent = `Link pembayaran: ${paymentLink.payment_url}`;
-
-      const btnlink = document.getElementById('btnlink');
-      const button = document.createElement('button');
-  
-      // Menambahkan atribut dan gaya pada elemen button
-      button.textContent = 'Menuju ke pembayaran';
-      button.classList.add('btn', 'btn-primary');  // Ganti dengan warna latar belakang yang diinginkan
-      button.style.color = 'white';          // Ganti dengan warna teks yang diinginkan
-      
-      // Menambahkan event listener untuk menangani klik tombol
-      button.addEventListener('click', function() {
-        // Logika atau aksi yang ingin dilakukan ketika tombol diklik
-        redirectToPayment(paymentLink.payment_url);
-      });
-
-      // Menambahkan elemen button ke dalam elemen dengan ID 'btnlink'
-      btnlink.appendChild(button);
-      window.location.href = paymentLink.payment_url
-    } else {
-      console.error('Invalid response structure:', paymentLink);
-    }
-
-  } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-}
 
 
 
